@@ -14,7 +14,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 
-def download_issues():
+def download_issues(skip=0):
     domains = []
     main_html = send_request("https://instantview.telegram.org/contest")
     pq = PyQuery(main_html)
@@ -30,6 +30,11 @@ def download_issues():
     try:
         # Iterate over the rows to get the domains
         for row in rows.items(".list-group-contest-item"):
+            # If the user wants to skip certain domains,
+            if domain_counter < skip:
+                domain_counter += 1
+                continue
+
             domain_name = row("div > a").text()
 
             if row(".status-winner") is None:
