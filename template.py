@@ -41,7 +41,14 @@ class Template(object):
         pq = PyQuery(issue_site)
 
         # get number of issues
-        issue_amount = int(pq("h3").eq(1)(".header-count").text())
+
+        header_count_text = pq("h3").eq(1)(".header-count").text()
+        try:
+            issue_amount = int(header_count_text)
+        except ValueError:
+            logger.warning("Cannot parse int from .header-count: {}".format(header_count_text))
+            return
+
         if issue_amount == 0:
             logger.info("No open issues @ {} - header name: {}".format(self.url, pq("h3").eq(1).text()))
             return
