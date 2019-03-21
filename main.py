@@ -115,7 +115,7 @@ def to_csv():
         with open(domains_file, "w", encoding="utf-8") as f:
             f.write("\n".join(str(line) for line in csv_domains))
     except PermissionError as e:
-        logger.error(e  )
+        logger.error(e)
 
 
 if __name__ == "__main__":
