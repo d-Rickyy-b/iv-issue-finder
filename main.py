@@ -86,14 +86,16 @@ def search_saved_domains(search_word):
         domain_o = Domain.from_dict(domain)
         domains.append(domain_o)
 
+def search_saved_domains(search_word):
+    domains = load_from_json()
+
     print("-----------------------------------------------------------------------")
 
     for domain in domains:
         for template in domain.templates:
             for issue in template.issues:
-                logger.info("{} | {} | {}".format(issue.url, domain.name, issue.comment))
-                #if search_word in issue.comment:
-                #    logger.info("{} | {} | {}".format(issue.url, domain.name, issue.comment))
+                if search_word in issue.comment:
+                    logger.info("{} | {} | {}".format(issue.url, domain.name, issue.comment))
 
 
 def to_csv():
