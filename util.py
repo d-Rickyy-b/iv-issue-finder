@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-import logging
 import html
-import urllib.request
+import logging
 import urllib
+import urllib.request
 from json import JSONEncoder
-from threading import Thread, current_thread, Event
-
 
 useragent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) " \
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 " \
@@ -31,5 +29,5 @@ def send_request(url):
 
 
 class DataEncoder(JSONEncoder):
-        def default(self, o):
-            return o.to_dict()
+    def default(self, o):
+        return o.to_dict()
