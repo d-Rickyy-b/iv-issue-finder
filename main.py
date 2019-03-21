@@ -96,6 +96,26 @@ def search_saved_domains(search_word):
                 #    logger.info("{} | {} | {}".format(issue.url, domain.name, issue.comment))
 
 
+def to_csv():
+    domains = load_from_json()
+    csv_domains = []
+
+    for domain in domains:
+        for template in domain.templates:
+            for issue in template.issues:
+                tmp_str = "{};{};{};\"{}\";".format(domain.name, issue.author.replace(";", ""), issue.url, issue.comment.replace("\n", " ").replace("\"", "'"))
+                csv_domains.append(tmp_str)
+
+    current_path = os.path.dirname(os.path.abspath(__file__))
+    domains_file = os.path.join(current_path, "domains.csv")
+
+    try:
+        with open(domains_file, "w", encoding="utf-8") as f:
+            f.write("\n".join(str(line) for line in csv_domains))
+    except PermissionError as e:
+        logger.error(e  )
+
+
 if __name__ == "__main__":
     #download_issues()
     search_saved_domains("")
