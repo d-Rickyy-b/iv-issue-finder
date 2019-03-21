@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+import json
 import logging
-from datetime import datetime
 import time
+from datetime import datetime
 
 from pyquery import PyQuery
+
 from util import send_request
-import json
 
 logger = logging.getLogger(__name__)
 

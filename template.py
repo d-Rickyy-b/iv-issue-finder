@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+import json
 import logging
 
 from pyquery import PyQuery
 
 from issue import Issue
 from util import send_request
-import json
 
 logger = logging.getLogger(__name__)
 
@@ -87,4 +87,3 @@ class Template(object):
 
     def __str__(self):
         return "{} | {} | {}".format(self.creator, self.url, self.issues)
-
