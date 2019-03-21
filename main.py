@@ -63,6 +63,7 @@ def download_issues(skip=0):
     # Write the file to the disk
     current_path = os.path.dirname(os.path.abspath(__file__))
     domains_file = os.path.join(current_path, "domains.json")
+
     with open(domains_file, "w", encoding="utf-8") as f:
         f.write(json.dumps(obj=domains, cls=DataEncoder))
 
@@ -72,7 +73,7 @@ def download_domain(domain_name, domain_queue):
     domain_queue.put(domain)
 
 
-def search_saved_domains(search_word):
+def load_from_json():
     current_path = os.path.dirname(os.path.abspath(__file__))
     domains_file = os.path.join(current_path, "domains.json")
 
@@ -85,6 +86,9 @@ def search_saved_domains(search_word):
     for domain in content_json:
         domain_o = Domain.from_dict(domain)
         domains.append(domain_o)
+
+    return domains
+
 
 def search_saved_domains(search_word):
     domains = load_from_json()
