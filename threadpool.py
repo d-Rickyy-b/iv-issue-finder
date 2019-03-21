@@ -12,7 +12,6 @@ class Threadpool(object):
     def __init__(self, workers):
         self.workers = workers
         self.semaphore = Semaphore(workers)
-        self.thread_semaphore = Semaphore(workers)
         self.threads = []
         self.stop_event = Event()
         self.stop_event.clear()
