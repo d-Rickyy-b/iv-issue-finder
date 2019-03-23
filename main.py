@@ -73,9 +73,10 @@ def download_domain(domain_name, domain_queue):
     domain_queue.put(domain)
 
 
-def load_from_json():
+def load_from_json(filename="domains.json"):
+    """Load data from a json file"""
     current_path = os.path.dirname(os.path.abspath(__file__))
-    domains_file = os.path.join(current_path, "domains.json")
+    domains_file = os.path.join(current_path, filename)
 
     with open(domains_file, "r", encoding="utf-8") as f:
         content = f.read()
@@ -90,10 +91,10 @@ def load_from_json():
     return domains
 
 
-def search_saved_domains(search_word):
-    domains = load_from_json()
 
     print("-----------------------------------------------------------------------")
+def search_saved_domains(search_word, filename="domains.json"):
+    domains = load_from_json(filename)
 
     for domain in domains:
         for template in domain.templates:
@@ -102,8 +103,9 @@ def search_saved_domains(search_word):
                     logger.info("{} | {} | {}".format(issue.url, domain.name, issue.comment))
 
 
-def to_csv(filename="domains.csv"):
-    domains = load_from_json()
+def to_csv(filename="domains.csv", domain_file="domains.json"):
+    """"""
+    domains = load_from_json(filename=domain_file)
     csv_domains = []
 
     for domain in domains:
