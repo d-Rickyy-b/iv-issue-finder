@@ -130,5 +130,6 @@ def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
 
 
 if __name__ == "__main__":
-    search_saved_domains("")
     download_issues(filename="all_domains.json", only_active=False)
+    # search_saved_domains("missing")
+    to_csv(filename="all_domains.csv", domain_file="all_domains.json")
