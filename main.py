@@ -48,8 +48,7 @@ def download_issues(filename="domains.json", skip=0, only_active=False):
                 continue
 
             logger.info("{} - New domain found: {}".format(domain_counter, domain_name))
-            tp.start_thread(download_domain, name=str(domain_counter), domain_name=domain_name, domain_queue=domain_queue)
-            # domains.append(Domain(domain_name, parse_content=True))
+            tp.start_thread(download_domain, name=str(domain_counter), domain_name=domain_name, domain_queue=domain_queue, only_active=only_active)
 
             domain_counter += 1
     except Exception:
