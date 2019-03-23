@@ -14,7 +14,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 
-def download_issues(skip=0):
+def download_issues(filename="domains.json", skip=0):
     domains = []
     main_html = send_request("https://instantview.telegram.org/contest")
     pq = PyQuery(main_html)
@@ -62,7 +62,7 @@ def download_issues(skip=0):
 
     # Write the file to the disk
     current_path = os.path.dirname(os.path.abspath(__file__))
-    domains_file = os.path.join(current_path, "domains.json")
+    domains_file = os.path.join(current_path, filename)
 
     with open(domains_file, "w", encoding="utf-8") as f:
         f.write(json.dumps(obj=domains, cls=DataEncoder))
@@ -102,7 +102,7 @@ def search_saved_domains(search_word):
                     logger.info("{} | {} | {}".format(issue.url, domain.name, issue.comment))
 
 
-def to_csv():
+def to_csv(filename="domains.csv"):
     domains = load_from_json()
     csv_domains = []
 
@@ -113,7 +113,7 @@ def to_csv():
                 csv_domains.append(tmp_str)
 
     current_path = os.path.dirname(os.path.abspath(__file__))
-    domains_file = os.path.join(current_path, "domains.csv")
+    domains_file = os.path.join(current_path, filename)
 
     try:
         with open(domains_file, "w", encoding="utf-8") as f:
