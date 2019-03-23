@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 def download_issues(filename="domains.json", skip=0):
+    """Downloads all the issues of the available domains"""
     domains = []
     main_html = send_request("https://instantview.telegram.org/contest")
     pq = PyQuery(main_html)
@@ -69,6 +70,7 @@ def download_issues(filename="domains.json", skip=0):
 
 
 def download_domain(domain_name, domain_queue):
+    """Downloads all the templates and issues related to one domain"""
     domain = Domain(domain_name, parse_content=True)
     domain_queue.put(domain)
 
@@ -92,6 +94,7 @@ def load_from_json(filename="domains.json"):
 
 
 def search_saved_domains(search_word, filename="domains.json"):
+    """Search domains/issues for certain words and print them"""
     domains = load_from_json(filename)
 
     for domain in domains:
