@@ -40,9 +40,22 @@ class Template(object):
         issue_site = send_request(self.url)
         pq = PyQuery(issue_site)
 
-        # get number of issues
+        # get the first header of the site
+        issue_header = pq("h3").eq(1)
 
-        header_count_text = pq("h3").eq(1)(".header-count").text()
+        # if the header contains "accepted" or "declined" issues, ignore the issues - we only want unprocessed issues
+        if len(issue_header(".accepted")) != 0 or len(issue_header(".declined")) != 0 or issue_header.text().lower == "accepted issues" or issue_header.text().lower() == "declined issues":
+            return
+
+        # Get the issue count
+        issue_header_count = issue_header(".header-count")
+
+        # If the count does not exist, there are no issues on that domain
+        if len(issue_header_count) == 0:
+            logger.info("No issues for template {}".format(self.url))
+            return
+
+        header_count_text = issue_header_count.text()
         try:
             issue_amount = int(header_count_text)
         except ValueError:
