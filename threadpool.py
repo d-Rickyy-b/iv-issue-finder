@@ -30,6 +30,8 @@ class Threadpool(object):
         logger.info("Processing domain: {}".format(thread_name))
         try:
             target(*args, **kwargs)
+        except TimeoutError:
+            logger.warning("Could not fetch url for {}".format(thread_name))
         except Exception:
             exception_event.set()
             logger.exception('unhandled exception in %s', thread_name)
