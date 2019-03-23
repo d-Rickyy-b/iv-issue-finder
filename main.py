@@ -104,7 +104,7 @@ def search_saved_domains(search_word, filename="domains.json"):
                     logger.info("{} | {} | {}".format(issue.url, domain.name, issue.comment))
 
 
-def to_csv(filename="domains.csv", domain_file="domains.json"):
+def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
     """"""
     domains = load_from_json(filename=domain_file)
     csv_domains = []
@@ -120,7 +120,12 @@ def to_csv(filename="domains.csv", domain_file="domains.json"):
 
     try:
         with open(domains_file, "w", encoding="utf-8") as f:
-            f.write("\n".join(str(line) for line in csv_domains))
+            if headers:
+                header = "Domain;Author;URL;Comment\n"
+            else:
+                header = ""
+
+            f.write(header + "\n".join(str(line) for line in csv_domains))
     except PermissionError as e:
         logger.error(e)
 
