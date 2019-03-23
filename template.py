@@ -59,7 +59,7 @@ class Template(object):
         try:
             issue_amount = int(header_count_text)
         except ValueError:
-            logger.warning("Cannot parse int from .header-count: {}".format(header_count_text))
+            logger.warning("Cannot parse int from .header-count: {} - '{}'".format(self.url, header_count_text))
             return
 
         if issue_amount == 0:
