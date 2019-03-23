@@ -104,7 +104,7 @@ def search_saved_domains(search_word, filename="domains.json"):
 
 
 def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
-    """"""
+    """Save domains to csv file"""
     domains = load_from_json(filename=domain_file)
     csv_domains = []
 
