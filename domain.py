@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 class Domain(object):
 
-    def __init__(self, name, parse_content=False):
+    def __init__(self, name, parse_content=False, only_active=True):
         self.name = name
         self.url = "https://instantview.telegram.org/contest/{}/".format(name)
         self.templates = []
@@ -38,7 +38,10 @@ class Domain(object):
         pq = PyQuery(domain_site)
 
         # Only get active templates
-        site_templates = pq(".list-group-contest").eq(0)
+        if only_active:
+            site_templates = pq(".list-group-contest").eq(0)
+        else:
+            site_templates = pq(".list-group-contest")
 
         for template in site_templates.items(".list-group-contest-item"):
             creator = template(".contest-item-author > a").text()

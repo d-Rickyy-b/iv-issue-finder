@@ -14,7 +14,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 
-def download_issues(filename="domains.json", skip=0):
+def download_issues(filename="domains.json", skip=0, only_active=False):
     """Downloads all the issues of the available domains"""
     domains = []
     main_html = send_request("https://instantview.telegram.org/contest")
@@ -69,9 +69,9 @@ def download_issues(filename="domains.json", skip=0):
         f.write(json.dumps(obj=domains, cls=DataEncoder))
 
 
-def download_domain(domain_name, domain_queue):
+def download_domain(domain_name, domain_queue, only_active):
     """Downloads all the templates and issues related to one domain"""
-    domain = Domain(domain_name, parse_content=True)
+    domain = Domain(domain_name, parse_content=True, only_active=only_active)
     domain_queue.put(domain)
 
 
@@ -131,5 +131,5 @@ def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
 
 
 if __name__ == "__main__":
-    #download_issues()
     search_saved_domains("")
+    download_issues(filename="all_domains.json", only_active=False)
