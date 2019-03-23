@@ -7,8 +7,8 @@ from queue import Queue
 from pyquery import PyQuery
 
 from domain import Domain
-from util import send_request, DataEncoder
 from threadpool import Threadpool
+from util import send_request, DataEncoder
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -91,8 +91,6 @@ def load_from_json(filename="domains.json"):
     return domains
 
 
-
-    print("-----------------------------------------------------------------------")
 def search_saved_domains(search_word, filename="domains.json"):
     domains = load_from_json(filename)
 
