@@ -19,9 +19,14 @@ class Issue(object):
         self.comment = comment
 
         if date is not None and not isinstance(date, int):
-            tmp_date = datetime.strptime(date, "%b %d at %I:%M %p")
-            tmp_date = tmp_date.replace(year=2019)
-            self.date = int(time.mktime(tmp_date.timetuple()))
+            try:
+                tmp_date = datetime.strptime(date, "%b %d at %I:%M %p")
+                tmp_date = tmp_date.replace(year=2019)
+                self.date = int(time.mktime(tmp_date.timetuple()))
+            except ValueError:
+                # probably some timestamp cannot be parsed -> year in timestamp
+                tmp_date = datetime.strptime(date, "%b %d, %Y at %I:%M %p")
+                self.date = int(time.mktime(tmp_date.timetuple()))
         else:
             self.date = date
 
