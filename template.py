@@ -52,7 +52,7 @@ class Template(object):
 
         # If the count does not exist, there are no issues on that domain
         if len(issue_header_count) == 0:
-            logger.info("No issues for template {}".format(self.url))
+            logger.debug("No issues for template {}".format(self.url))
             return
 
         header_count_text = issue_header_count.text()
@@ -63,7 +63,7 @@ class Template(object):
             return
 
         if issue_amount == 0:
-            logger.info("No open issues @ {} - header name: {}".format(self.url, pq("h3").eq(1).text()))
+            logger.debug("No open issues @ {} - header name: {}".format(self.url, pq("h3").eq(1).text()))
             return
 
         # Only get unhandled issues
