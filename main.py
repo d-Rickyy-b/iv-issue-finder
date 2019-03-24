@@ -111,7 +111,13 @@ def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
     for domain in domains:
         for template in domain.templates:
             for issue in template.issues:
-                tmp_str = "{};{};{};\"{}\";".format(domain.name, issue.author.replace(";", ""), issue.url, issue.comment.replace("\n", " ").replace("\"", "'"))
+                # tmp_str = "{};{};{};=HYPERLINK(\"{}\");\"{}\";".format(domain.name, issue.author.replace(";", ""), issue.url, issue.url, issue.comment.replace("\n", " ").replace("\"", "'"))
+                tmp_str = "{};{};{};{};\"{}\";\"{}\";".format(domain.name,
+                                                              template.creator.replace(";", ""),
+                                                              issue.author.replace(";", ""),
+                                                              issue.url,
+                                                              issue.comment.replace("\n", " ").replace("\"", "'"),
+                                                              issue.creator_comment.replace("\n", " ").replace("\"", "'"))
                 csv_domains.append(tmp_str)
 
     current_path = os.path.dirname(os.path.abspath(__file__))
@@ -120,7 +126,7 @@ def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
     try:
         with open(domains_file, "w", encoding="utf-8") as f:
             if headers:
-                header = "Domain;Author;URL;Comment\n"
+                header = "Domain;Template Creator;Issue Author;URL;Issue Author Comment;Template Creator Comment;\n"
             else:
                 header = ""
 

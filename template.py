@@ -21,10 +21,10 @@ class Template(object):
         if parse_content:
             self.parse_issues()
 
-    def add_issue(self, url=None, comment=None, author=None, issue=None, date=None):
+    def add_issue(self, url=None, comment=None, author=None, issue=None, date=None, creator_comment=None):
         if issue is None:
             logger.info("New issue: {} - {}".format(author, url))
-            self.issues.append(Issue(url=url, author=author, date=date, comment=comment))
+            self.issues.append(Issue(url=url, author=author, date=date, comment=comment, creator_comment=creator_comment))
         else:
             issue.info("New issue: {} - {} - {}".format(issue.author, issue.comment[:20], issue.url))
             self.issues.append(issue)
@@ -94,8 +94,9 @@ class Template(object):
             issue_url = issue.get("url")
             issue_comment = issue.get("comment")
             issue_date = issue.get("date")
+            creator_comment = issue.get("creator_comment")
 
-            template.add_issue(url=issue_url, author=issue_author, comment=issue_comment, date=issue_date)
+            template.add_issue(url=issue_url, author=issue_author, comment=issue_comment, date=issue_date, creator_comment=creator_comment)
 
         return template
 
