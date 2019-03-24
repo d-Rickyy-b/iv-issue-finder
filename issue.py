@@ -13,10 +13,11 @@ logger = logging.getLogger(__name__)
 
 class Issue(object):
 
-    def __init__(self, url, author, comment=None, date=None, parse_content=False):
+    def __init__(self, url, author, comment=None, date=None, parse_content=False, creator_comment=""):
         self.url = url
         self.author = author
         self.comment = comment
+        self.creator_comment = creator_comment or ""
 
         if date is not None and not isinstance(date, int):
             try:
@@ -44,8 +45,14 @@ class Issue(object):
         self.comment = content.text()
         logger.info(self.comment.replace('\n', ' ')[:20])
 
+        try:
+            template_creator_answer = pq(".issue-info-row-owner")("dd").text()
+            self.creator_comment = template_creator_answer or ""
+        except Exception:
+            pass
+
     def to_dict(self):
-        return dict(author=self.author, url=self.url, comment=self.comment, date=self.date)
+        return dict(author=self.author, url=self.url, comment=self.comment, date=self.date, creator_comment=self.creator_comment)
 
     @staticmethod
     def from_dict(issue_dict):
@@ -53,8 +60,9 @@ class Issue(object):
         author = issue_dict.get("author")
         comment = issue_dict.get("comment")
         date = issue_dict.get("date")
+        creator_comment = issue_dict.get("creator_comment")
 
-        return Issue(url=url, author=author, comment=comment, date=date)
+        return Issue(url=url, author=author, comment=comment, date=date, creator_comment=creator_comment)
 
     def to_json(self):
         return json.dumps(self.to_dict())
