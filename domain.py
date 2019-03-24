@@ -17,6 +17,7 @@ class Domain(object):
         self.url = "https://instantview.telegram.org/contest/{}/".format(name)
         self.templates = []
         self.parse_content = parse_content
+        self.only_active = only_active
 
         if parse_content:
             self.parse_templates()
@@ -38,7 +39,7 @@ class Domain(object):
         pq = PyQuery(domain_site)
 
         # Only get active templates
-        if only_active:
+        if self.only_active:
             site_templates = pq(".list-group-contest").eq(0)
         else:
             site_templates = pq(".list-group-contest")
