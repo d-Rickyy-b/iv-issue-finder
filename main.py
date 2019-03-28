@@ -103,6 +103,17 @@ def search_saved_domains(search_word, filename="domains.json"):
                     logger.info("{} | {} | {}".format(issue.url, domain.name, issue.comment))
 
 
+def save_csv_file(file, csv_domains, headers=True):
+    logger.info("Trying to save file as '{}'".format(file))
+    with open(file, "w", encoding="utf-8") as f:
+        if headers:
+            header = "Domain;Template Creator;Issue Author;URL;Issue Author Comment;Template Creator Comment;\n"
+        else:
+            header = ""
+
+        f.write(header + "\n".join(str(line) for line in csv_domains))
+
+
 def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
     """Save domains to csv file"""
     domains = load_from_json(filename=domain_file)
