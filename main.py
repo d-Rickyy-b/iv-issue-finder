@@ -134,16 +134,20 @@ def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
     current_path = os.path.dirname(os.path.abspath(__file__))
     domains_file = os.path.join(current_path, filename)
 
-    try:
-        with open(domains_file, "w", encoding="utf-8") as f:
-            if headers:
-                header = "Domain;Template Creator;Issue Author;URL;Issue Author Comment;Template Creator Comment;\n"
+    counter = 0
+    while True:
+        try:
+            if counter == 0:
+                file = domains_file
             else:
-                header = ""
+                file = os.path.join(str(counter) + current_path, filename)
 
-            f.write(header + "\n".join(str(line) for line in csv_domains))
-    except PermissionError as e:
-        logger.error(e)
+            save_csv_file(file, csv_domains, headers)
+            logger.info("Storing successful")
+            break
+        except PermissionError as e:
+            counter += 1
+            logger.error(e)
 
 
 if __name__ == "__main__":
