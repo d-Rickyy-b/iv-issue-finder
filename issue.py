@@ -2,6 +2,7 @@
 import json
 import logging
 import time
+import re
 from datetime import datetime
 
 from pyquery import PyQuery
@@ -13,8 +14,9 @@ logger = logging.getLogger(__name__)
 
 class Issue(object):
 
-    def __init__(self, url, author, comment=None, date=None, parse_content=False, creator_comment=""):
+    def __init__(self, url, author, template_creator=None, comment=None, date=None, parse_content=False, creator_comment=""):
         self.url = url
+        self.template_creator = template_creator
         self.author = author
         self.comment = comment
         self.creator_comment = creator_comment or ""
@@ -51,8 +53,17 @@ class Issue(object):
         except Exception:
             pass
 
+        try:
+            template_creator_field = pq(".input-group-addon")("li").eq(3).text()
+            regex = re.compile(r"Template #[0-9]{1,4} \(by (.*?)\)")
+            template_creator = regex.match(template_creator_field).group(1)
+
+            self.template_creator = template_creator or ""
+        except Exception as e:
+            logger.exception(e)
+
     def to_dict(self):
-        return dict(author=self.author, url=self.url, comment=self.comment, date=self.date, creator_comment=self.creator_comment)
+        return dict(author=self.author, url=self.url, comment=self.comment, date=self.date, template_creator=self.template_creator, creator_comment=self.creator_comment)
 
     @staticmethod
     def from_dict(issue_dict):
@@ -61,8 +72,9 @@ class Issue(object):
         comment = issue_dict.get("comment")
         date = issue_dict.get("date")
         creator_comment = issue_dict.get("creator_comment")
+        template_creator = issue_dict.get("template_creator")
 
-        return Issue(url=url, author=author, comment=comment, date=date, creator_comment=creator_comment)
+        return Issue(url=url, author=author, template_creator=template_creator, comment=comment, date=date, creator_comment=creator_comment)
 
     def to_json(self):
         return json.dumps(self.to_dict())
