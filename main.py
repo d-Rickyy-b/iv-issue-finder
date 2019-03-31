@@ -150,7 +150,21 @@ def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
             logger.error(e)
 
 
+def to_issue_json(filename="issues.json", domain_file="domains.json"):
+    domains = load_from_json(filename=domain_file)
+    issues = []
+
+    for domain in domains:
+        for template in domain.templates:
+            for issue in template.issues:
+                issues.append(issue)
+
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(json.dumps(obj=issues, cls=DataEncoder))
+
+
 if __name__ == "__main__":
     download_issues(filename="all_domains.json", only_active=False)
     # search_saved_domains("missing")
     to_csv(filename="all_domains.csv", domain_file="all_domains.json")
+    to_issue_json(filename="issues.json", domain_file="domains.json")
