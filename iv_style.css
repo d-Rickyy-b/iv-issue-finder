@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body {
     font-family: Arial, Helvetica, sans-serif;
     font: 16px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
@@ -101,30 +102,29 @@ body {
     border-bottom: 1px solid #dfdfdf;
     border-top: 1px solid #dfdfdf;
     font-size: 16px;
-    margin-top: 20px;
     padding-left: 5px;
     padding-right: 5px;
 
     padding-top: 12px;
     padding-bottom: 12px;
-    max-width: 50%;
+    max-width: 61%;
     margin-right: 5px;
     margin-left: 5px;
     vertical-align:top;
 }
 
 .domain-search {
-    width: 18%;
+    width: 16%;
     float: left;
 }
 
 .comment-search {
-    width:58%;
+    width:56%;
     float: right;
 }
 
 .user-search {
-    width: 24%;
+    width: 23%;
     float: left;
 }
 
@@ -134,6 +134,7 @@ body {
     zoom: 1;
     border: #333;
     flex-flow: row;
+    margin-top: 15px;
     padding-top: 12px;
     padding-bottom: 12px;
     width: 100%;
