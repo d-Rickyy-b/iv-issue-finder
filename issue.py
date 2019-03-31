@@ -3,6 +3,7 @@ import json
 import logging
 import time
 import re
+import html
 from datetime import datetime
 
 from pyquery import PyQuery
@@ -44,12 +45,17 @@ class Issue(object):
         pq = PyQuery(issue_content)
 
         content = pq(".issue-comment-text").eq(0)
-        self.comment = content.text()
+        self.comment = html.escape(content.text())
         logger.info(self.comment.replace('\n', ' ')[:20])
 
         try:
             template_creator_answer = pq(".issue-info-row-owner")("dd").text()
-            self.creator_comment = template_creator_answer or ""
+            if template_creator_answer is None:
+                self.creator_comment = ""
+            else:
+                self.creator_comment = html.escape(template_creator_answer)
+            if "Type of issue IV" in self.creator_comment:
+                logger.exception("ERROR!!! {}".format(template_creator_answer))
         except Exception as e:
             logger.exception(e)
 
