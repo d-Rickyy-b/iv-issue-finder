@@ -1,0 +1,140 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font: 16px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
+}
+  
+.main-list, .list-header {
+    margin: auto;
+    width: 70%;
+    padding: 10px;
+    min-width: 600px;
+}
+
+
+.list-item {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-width: 3px;
+    border-style: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
+    overflow: hidden;
+    clear:both;
+}
+
+.list-item .domain a, .list-item .domain a:hover {
+    color: #2e87ca;
+    text-decoration: none;
+}
+
+.list-item div.domain {
+    width: 18%;
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 5px;
+}
+
+.list-item div.issue-author,
+.list-item div.template-creator {
+width: 12%;
+min-height: 1em;
+float: left;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+margin-right: 5px;
+}
+
+.list-item div.comment-box {
+    
+    overflow: hidden; /*
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    */
+}
+
+.list-item div.comment-field {
+    /* overflow-x: scroll;
+    overflow-y: hidden; */
+    overflow: initial;
+    /*white-space: nowrap;*/
+    overflow-wrap: normal;
+    text-overflow: ellipsis;
+}
+
+/* Issue creator's comment in comment section */
+.list-item div.issue-comment::before {
+    color:#808080;
+    content: 'Comment: '
+}
+
+/* Issue reply in comment section */
+.list-item div.issue-reply {
+    margin-top: 2px;
+}
+
+.list-item div.issue-reply::before {
+    color:#808080;
+    content: 'Reply: '
+}
+
+.list-item .issue-author {
+    color: #2e87ca;
+}
+
+.list-item .template-creator {
+    color: #32bfb3;
+}
+
+.hidden {
+    display: none;
+}
+
+.search-bar {
+    border: none;
+    border-bottom: 1px solid #dfdfdf;
+    border-top: 1px solid #dfdfdf;
+    font-size: 16px;
+    margin-top: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    padding-top: 12px;
+    padding-bottom: 12px;
+    max-width: 50%;
+    margin-right: 5px;
+    margin-left: 5px;
+    vertical-align:top;
+}
+
+.domain-search {
+    width: 18%;
+    float: left;
+}
+
+.comment-search {
+    width:58%;
+    float: right;
+}
+
+.user-search {
+    width: 24%;
+    float: left;
+}
+
+.search-box {
+    display: flex;
+    
+    zoom: 1;
+    border: #333;
+    flex-flow: row;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    width: 100%;
+}
