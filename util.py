@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import html
 import logging
 import urllib
 import urllib.request
@@ -29,7 +28,6 @@ def send_request(url):
         return ""
 
     html_str = f.read().decode('utf-8')
-    html_str = html.unescape(html_str)
     return html_str
 
 
