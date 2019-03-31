@@ -4,6 +4,7 @@ import logging
 import urllib
 import urllib.request
 from json import JSONEncoder
+from urllib.error import URLError
 
 useragent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) " \
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 " \
@@ -21,7 +22,11 @@ def send_request(url):
         headers={'User-Agent': useragent}
     )
 
-    f = urllib.request.urlopen(req)
+    try:
+        f = urllib.request.urlopen(req)
+    except URLError as e:
+        logger.error(e)
+        return ""
 
     html_str = f.read().decode('utf-8')
     html_str = html.unescape(html_str)
