@@ -15,8 +15,8 @@ function create_issue(issue_url, domain_name, author_name, creator_name, comment
     return container;
 }
 
-function check() {
-    checkbox = document.getElementById("cb")
+function filter_self_made() {
+    checkbox = document.getElementById("self-made-cb")
     list = document.getElementById("main-list");
     list.innerHTML = "";
     
