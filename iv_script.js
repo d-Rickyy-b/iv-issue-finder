@@ -35,6 +35,26 @@ function filter_self_made() {
     }
 }
 
+function filter_no_reply() {
+    checkbox = document.getElementById("reply-cb")
+    list = document.getElementById("main-list");
+    list.innerHTML = "";
+    
+    if (checkbox.checked) {    
+        for (i = 0; i < issue_data.length; i++) {
+            var issue = issue_data[i];
+            var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
+            var domain_name = regExp.exec(issue.url)[1]
+            if (issue.creator_comment == "") {
+                var container = create_issue(issue.url, domain_name, issue.author, issue.template_creator, issue.comment, issue.creator_comment);
+                list.appendChild(container);
+            }
+        }
+    } else {
+        load_all_issues();
+    }
+}
+
 function load_all_issues() {
     list = document.getElementById("main-list");
     list.innerHTML = "";
