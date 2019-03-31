@@ -86,7 +86,7 @@ function search_user() {
 }
 
 function remove_filter() {
-    issue_checkbox = document.getElementById("cb");
+    issue_checkbox = document.getElementById("self-made-cb");
     issue_checkbox.checked = false;
 
     domain_search_field = document.getElementById("domain-search-bar");
