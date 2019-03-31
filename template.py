@@ -38,6 +38,10 @@ class Template(object):
             logger.error("Cannot parse {} - url is None".format(self.url))
 
         issue_site = send_request(self.url)
+        if issue_site == "":
+            logger.warning("Empty site {}".format(self.url))
+            return
+
         pq = PyQuery(issue_site)
 
         # get the first header of the site
