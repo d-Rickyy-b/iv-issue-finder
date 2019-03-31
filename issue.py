@@ -50,8 +50,8 @@ class Issue(object):
         try:
             template_creator_answer = pq(".issue-info-row-owner")("dd").text()
             self.creator_comment = template_creator_answer or ""
-        except Exception:
-            pass
+        except Exception as e:
+            logger.exception(e)
 
         try:
             template_creator_field = pq(".input-group-addon")("li").eq(3).text()
