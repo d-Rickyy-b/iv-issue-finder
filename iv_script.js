@@ -3,7 +3,7 @@ function create_issue(issue_url, domain_name, author_name, creator_name, comment
     container.classList.add('list-item');
 
     container.innerHTML = `<div class="domain">
-                                <a href="${issue_url}">${domain_name}</a>
+                                <a href="${issue_url}" style="font-weight:bold">${domain_name}</a>
                             </div>
                             <div class="issue-author name">${author_name}</div>
                             <div class="template-creator name">${creator_name}</div>
