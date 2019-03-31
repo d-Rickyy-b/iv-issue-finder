@@ -164,7 +164,7 @@ def to_issue_json(filename="issues.json", domain_file="domains.json"):
 
 
 if __name__ == "__main__":
-    download_issues(filename="all_domains.json", only_active=False)
+    download_issues(filename="domains.json", only_active=True)
     # search_saved_domains("missing")
-    to_csv(filename="all_domains.csv", domain_file="all_domains.json")
+    to_csv(filename="domains.csv", domain_file="domains.json")
     to_issue_json(filename="issues.json", domain_file="domains.json")
