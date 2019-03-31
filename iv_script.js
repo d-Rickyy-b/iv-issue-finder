@@ -26,7 +26,7 @@ function filter(name) {
         var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
         var domain_name = regExp.exec(issue.url)[1]
         if (domain_name.includes(String(name))) {
-            var container = create_issue(issue.url, domain_name, issue.author, " ", issue.comment, issue.creator_comment);
+            var container = create_issue(issue.url, domain_name, issue.author, issue.template_creator, issue.comment, issue.creator_comment);
             list.appendChild(container);
         }
     }
