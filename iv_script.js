@@ -96,12 +96,36 @@ function filter_user(name) {
     }
 }
 
+function filter_comment(text) {
+    list = document.getElementById("main-list");
+    list.innerHTML = "";
+
+    for (i = 0; i < issue_data.length; i++) {
+        var issue = issue_data[i];
+        var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
+        var domain_name = regExp.exec(issue.url)[1]
+        if (issue.comment.includes(String(text)) || issue.creator_comment.includes(String(text))) {
+            var container = create_issue(issue.url, domain_name, issue.author, issue.template_creator, issue.comment, issue.creator_comment);
+            list.appendChild(container);
+        }
+    }
+}
+
 function search_user() {
     var text = document.getElementById("user-search-bar").value;
     if (text === "") {
         remove_filter();
     } else {
         filter_user(text);
+    }
+}
+
+function search_comment () {
+    var text = document.getElementById("comment-search-bar").value;
+    if (text === "") {
+        remove_filter();
+    } else {
+        filter_comment(text);
     }
 }
 
