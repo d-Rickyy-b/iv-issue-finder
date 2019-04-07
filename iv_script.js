@@ -66,7 +66,7 @@ function load_all_issues() {
     });
 }
 
-function filter(name) {
+function filter_domain(name) {
     list = document.getElementById("main-list");
     list.innerHTML = "";
 
@@ -144,12 +144,12 @@ function remove_filter() {
     load_all_issues();
 }
 
-function search() {
+function search_domain() {
     var text = document.getElementById("domain-search-bar").value;
     if (text === "") {
         remove_filter();
     } else {
-        filter(text);
+        filter_domain(text);
     }
 }
 
