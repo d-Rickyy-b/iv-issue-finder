@@ -153,7 +153,24 @@ function search() {
     }
 }
 
+function draw_result_set() {
+    // Draws the current result_set
+    list = document.getElementById("main-list");
+    let html = "";
+
+    result_set.forEach(issue => {
+        var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
+        var domain_name = regExp.exec(issue.url)[1]
+        if (issue.author.includes(String(name)) || issue.template_creator.includes(String(name))) {
+            html += create_issue(issue.url, domain_name, issue.author, issue.template_creator, issue.comment, issue.creator_comment);
+        }
+    });
+    list.innerHTML = html;
+
+    result_set_counter = document.getElementById("result-set-counter").innerText = result_set.length;
+}
 var issue_data = [];
+var result_set = [];
 
 // ./domains.json
 fetch('./issues.json')
