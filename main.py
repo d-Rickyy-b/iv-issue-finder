@@ -167,8 +167,31 @@ def to_issue_json(filename="issues.json", domain_file="domains.json"):
         f.write(json.dumps(obj=issue_obj, cls=DataEncoder))
 
 
+def count_domain_issues(domain_file="domains.json"):
+    domains = load_from_json(filename=domain_file)
+    issues = []
+    domain_issues = []
+
+    for domain in domains:
+        domain_issue_counter = 0
+        for template in domain.templates:
+            template_issue_counter = 0
+            for issue in template.issues:
+                template_issue_counter += 1
+                issues.append(issue)
+            domain_issue_counter += template_issue_counter
+
+        if domain_issue_counter > 0:
+            domain_issues.append([domain.name, domain_issue_counter])
+
+    domain_issues = sorted(domain_issues, key=lambda x: x[1], reverse=True)
+    from pprint import pprint
+    pprint(domain_issues)
+
+
 if __name__ == "__main__":
     download_issues(filename="domains.json", only_active=True)
     # search_saved_domains("missing")
     to_csv(filename="domains.csv", domain_file="domains.json")
     to_issue_json(filename="issues.json", domain_file="domains.json")
+    count_domain_issues()
