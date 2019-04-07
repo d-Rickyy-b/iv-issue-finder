@@ -171,6 +171,15 @@ fetch('./issues.json')
 
     load_all_issues();
 
+    document.getElementById("issue-count").innerText = data.issues.length;
+    var date = new Date(data.date * 1000);
+    var date_str = ("0" + date.getUTCDay()).slice(-2) + "." +
+                   ("0" + (date.getUTCMonth() + 1)).slice(-2) + "." +
+                   date.getUTCFullYear() + " " +
+                   ("0" + date.getUTCHours()).slice(-2) + ":" +
+                   ("0" + date.getUTCMinutes()).slice(-2) + " UTC+2";
+
+    document.getElementById("issues-date").innerText = date_str;
   })
   .catch(err => {
     // Do something for an error here
