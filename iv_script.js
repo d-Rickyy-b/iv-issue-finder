@@ -1,18 +1,17 @@
 function create_issue(issue_url, domain_name, author_name, creator_name, comment, reply) {
-    var container = document.createElement('div');
-    container.classList.add('list-item');
+    let html = `<div class="list-item">
+                    <div class="domain">
+                    <a href="${issue_url}" style="font-weight:bold">${domain_name}</a>
+                    </div>
+                    <div class="issue-author name">${author_name}</div>
+                    <div class="template-creator name">${creator_name}</div>
+                    <div class="comment-box">
+                        <div class="issue-comment comment-field">${comment}</div>
+                        <div class="issue-reply comment-field">${reply}</div>
+                    </div>
+                </div>`
 
-    container.innerHTML = `<div class="domain">
-                                <a href="${issue_url}" style="font-weight:bold">${domain_name}</a>
-                            </div>
-                            <div class="issue-author name">${author_name}</div>
-                            <div class="template-creator name">${creator_name}</div>
-                            <div class="comment-box">
-                                <div class="issue-comment comment-field">${comment}</div>
-                                <div class="issue-reply comment-field">${reply}</div>
-                            </div>`
-
-    return container;
+    return html;
 }
 
 function filter_self_made() {
