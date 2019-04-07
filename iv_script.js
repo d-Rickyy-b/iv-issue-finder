@@ -171,6 +171,7 @@ fetch('./issues.json')
 
     load_all_issues();
 
+    // Fill issue count and date field
     document.getElementById("issue-count").innerText = data.issues.length;
     var date = new Date(data.date * 1000);
     var date_str = ("0" + date.getUTCDay()).slice(-2) + "." +
