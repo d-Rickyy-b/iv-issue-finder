@@ -17,19 +17,15 @@ function create_issue(issue_url, domain_name, author_name, creator_name, comment
 
 function filter_self_made() {
     checkbox = document.getElementById("self-made-cb")
-    list = document.getElementById("main-list");
-    list.innerHTML = "";
-    
+    result_set = [];
+        
     if (checkbox.checked) {    
-        for (i = 0; i < issue_data.length; i++) {
-            var issue = issue_data[i];
-            var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
-            var domain_name = regExp.exec(issue.url)[1]
+        issue_data.forEach(issue => {
             if (issue.template_creator == issue.author) {
-                var container = create_issue(issue.url, domain_name, issue.author, issue.template_creator, issue.comment, issue.creator_comment);
-                list.appendChild(container);
+                result_set.push(issue);
             }
-        }
+        });
+        draw_result_set();
     } else {
         load_all_issues();
     }
@@ -37,19 +33,15 @@ function filter_self_made() {
 
 function filter_no_reply() {
     checkbox = document.getElementById("reply-cb")
-    list = document.getElementById("main-list");
-    list.innerHTML = "";
+    result_set = [];
     
     if (checkbox.checked) {    
-        for (i = 0; i < issue_data.length; i++) {
-            var issue = issue_data[i];
-            var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
-            var domain_name = regExp.exec(issue.url)[1]
+        issue_data.forEach(issue => {
             if (issue.creator_comment == "") {
-                var container = create_issue(issue.url, domain_name, issue.author, issue.template_creator, issue.comment, issue.creator_comment);
-                list.appendChild(container);
-            }
-        }
+                result_set.push(issue);
+            }    
+        });
+        draw_result_set();
     } else {
         load_all_issues();
     }
@@ -58,57 +50,48 @@ function filter_no_reply() {
 function load_all_issues() {
     list = document.getElementById("main-list");
     list.innerHTML = "";
+    result_set = [];
 
-    issue_data.forEach(issue => {              
-        var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
-        var container = create_issue(issue.url, regExp.exec(issue.url)[1], issue.author, issue.template_creator, issue.comment, issue.creator_comment);
-        list.appendChild(container);
+    issue_data.forEach(issue => {
+        result_set.push(issue);
     });
+    draw_result_set();
 }
 
 function filter_domain(name) {
     list = document.getElementById("main-list");
-    list.innerHTML = "";
+    result_set = [];
 
-    for (i = 0; i < issue_data.length; i++) {
-        var issue = issue_data[i];
+    issue_data.forEach(issue => {
         var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
         var domain_name = regExp.exec(issue.url)[1]
         if (domain_name.includes(String(name))) {
-            var container = create_issue(issue.url, domain_name, issue.author, issue.template_creator, issue.comment, issue.creator_comment);
-            list.appendChild(container);
+            result_set.push(issue);
         }
-    }
+    });
+    draw_result_set();
 }
 
 function filter_user(name) {
-    list = document.getElementById("main-list");
-    list.innerHTML = "";
+    result_set = [];
 
-    for (i = 0; i < issue_data.length; i++) {
-        var issue = issue_data[i];
-        var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
-        var domain_name = regExp.exec(issue.url)[1]
+    issue_data.forEach(issue => {
         if (issue.author.includes(String(name)) || issue.template_creator.includes(String(name))) {
-            var container = create_issue(issue.url, domain_name, issue.author, issue.template_creator, issue.comment, issue.creator_comment);
-            list.appendChild(container);
+            result_set.push(issue);
         }
-    }
+    });
+    draw_result_set();
 }
 
 function filter_comment(text) {
-    list = document.getElementById("main-list");
-    list.innerHTML = "";
+    result_set = [];
 
-    for (i = 0; i < issue_data.length; i++) {
-        var issue = issue_data[i];
-        var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
-        var domain_name = regExp.exec(issue.url)[1]
+    issue_data.forEach(issue => {
         if (issue.comment.includes(String(text)) || issue.creator_comment.includes(String(text))) {
-            var container = create_issue(issue.url, domain_name, issue.author, issue.template_creator, issue.comment, issue.creator_comment);
-            list.appendChild(container);
+            result_set.push(issue);
         }
-    }
+    });
+    draw_result_set();
 }
 
 function search_user() {
@@ -130,6 +113,7 @@ function search_comment () {
 }
 
 function remove_filter() {
+    result_set = [];
     issue_checkbox = document.getElementById("self-made-cb");
     issue_checkbox.checked = false;
 
@@ -169,6 +153,7 @@ function draw_result_set() {
 
     result_set_counter = document.getElementById("result-set-counter").innerText = result_set.length;
 }
+
 var issue_data = [];
 var result_set = [];
 
