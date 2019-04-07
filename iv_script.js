@@ -26,6 +26,7 @@ function filter_self_made() {
         });
         draw_result_set();
     } else {
+        remove_filter();
         load_all_issues();
     }
 }
@@ -42,6 +43,7 @@ function filter_no_reply() {
         });
         draw_result_set();
     } else {
+        remove_filter();
         load_all_issues();
     }
 }
