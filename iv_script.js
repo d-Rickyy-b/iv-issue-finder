@@ -15,6 +15,7 @@ function create_issue(issue_url, domain_name, author_name, creator_name, comment
 }
 
 function filter_self_made() {
+    // Filters all the issues for self-made issues
     checkbox = document.getElementById("self-made-cb")
     result_set = [];
         
@@ -158,7 +159,7 @@ function draw_result_set() {
 var issue_data = [];
 var result_set = [];
 
-// ./domains.json
+// Fetches the current issues from a json
 fetch('./issues.json')
   .then(response => {
     return response.json()
