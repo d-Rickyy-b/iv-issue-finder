@@ -179,7 +179,7 @@ fetch('./issues.json')
   })
   .then(data => {
     // Work with JSON data here
-    issue_data = data;
+    issue_data = data.issues;
     var list = document.getElementById("main-list");
 
     //var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
