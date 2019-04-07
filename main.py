@@ -2,6 +2,7 @@
 import json
 import logging
 import os
+import time
 from queue import Queue
 
 from pyquery import PyQuery
@@ -159,8 +160,11 @@ def to_issue_json(filename="issues.json", domain_file="domains.json"):
             for issue in template.issues:
                 issues.append(issue)
 
+    date = int(time.time())
+    issue_obj = dict(date=date, issues=issues)
+
     with open(filename, "w", encoding="utf-8") as f:
-        f.write(json.dumps(obj=issues, cls=DataEncoder))
+        f.write(json.dumps(obj=issue_obj, cls=DataEncoder))
 
 
 if __name__ == "__main__":
