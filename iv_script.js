@@ -21,7 +21,7 @@ function filter_self_made() {
         
     if (checkbox.checked) {    
         issue_data.forEach(issue => {
-            if (issue.template_creator == issue.author) {
+            if (issue.self_made == true) {
                 result_set.push(issue);
             }
         });
