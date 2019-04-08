@@ -50,13 +50,14 @@ class Issue(object):
         logger.info(self.comment.replace('\n', ' ')[:20])
 
         try:
-            template_creator_answer = pq(".issue-info-row-owner")("dd").text()
-            if template_creator_answer is None:
-                self.creator_comment = ""
-            else:
-                self.creator_comment = html.escape(template_creator_answer)
-            if "Type of issue IV" in self.creator_comment:
-                logger.exception("ERROR!!! {}".format(template_creator_answer))
+            if self.creator_comment is None or self.creator_comment == "":
+                template_creator_answer = pq(".issue-info-row-owner")("dd").text()
+                if template_creator_answer is None:
+                    self.creator_comment = ""
+                else:
+                    self.creator_comment = html.escape(template_creator_answer)
+                if "Type of issue IV" in self.creator_comment:
+                    logger.exception("ERROR!!! {}".format(template_creator_answer))
         except Exception as e:
             logger.exception(e)
 
