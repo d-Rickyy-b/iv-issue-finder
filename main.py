@@ -15,7 +15,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 
-def download_issues(filename="domains.json", skip=0, only_active=False):
+def download_issues(filename="domains.json", skip=0, only_active=False, only_without_winner=True):
     """Downloads all the issues of the available domains"""
     domains = []
     main_html = send_request("https://instantview.telegram.org/contest")
@@ -39,9 +39,12 @@ def download_issues(filename="domains.json", skip=0, only_active=False):
 
             domain_name = row("div > a").text()
 
-            if row(".status-winner") is not None and row(".status-winner").text() == "Winner '19":
-                logger.debug("Domain {} already got a winner".format(domain_name))
-                continue
+            # Switch to decide if all domains or only those without a winner should get scraped
+            if not only_without_winner:
+                # Only scrape domains which do not yet have a winner
+                if row(".status-winner") is not None and row(".status-winner").text() == "Winner '19":
+                    logger.debug("Domain {} already got a winner".format(domain_name))
+                    continue
 
             if not all(ord(c) < 128 for c in domain_name):
                 logger.warning("{} - Non ascii domain found: {}".format(domain_counter, domain_name))
