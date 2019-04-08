@@ -17,7 +17,7 @@ class Threadpool(object):
 
     def start_thread(self, target, name, *args, **kwargs):
         if self.stop_event.is_set():
-            logging.warning("Stop event set!")
+            logger.warning("Stop event set!")
             return
 
         self.semaphore.acquire()
@@ -27,7 +27,7 @@ class Threadpool(object):
 
     def thread_wrapper(self, target, exception_event, *args, **kwargs):
         thread_name = current_thread().name
-        logger.info("Processing domain: {}".format(thread_name))
+        logger.debug("Processing domain: {}".format(thread_name))
         try:
             target(*args, **kwargs)
         except TimeoutError:
@@ -37,7 +37,7 @@ class Threadpool(object):
             logger.exception('unhandled exception in %s', thread_name)
             raise
         finally:
-            logger.info("Finished processing domain: {}".format(thread_name))
+            logger.debug("Finished processing domain: {}".format(thread_name))
             logger.debug('{0} - thread ended'.format(thread_name))
             self.semaphore.release()
 
