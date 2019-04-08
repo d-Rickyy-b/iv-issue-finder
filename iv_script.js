@@ -60,6 +60,16 @@ function load_all_issues() {
     draw_result_set();
 }
 
+// Search for domains
+function search_domain() {
+    var text = document.getElementById("domain-search-bar").value;
+    if (text === "") {
+        remove_filter();
+    } else {
+        filter_domain(text);
+    }
+}
+
 function filter_domain(name) {
     list = document.getElementById("main-list");
     result_set = [];
@@ -74,6 +84,16 @@ function filter_domain(name) {
     draw_result_set();
 }
 
+// Search for user data
+function search_user() {
+    var text = document.getElementById("user-search-bar").value;
+    if (text === "") {
+        remove_filter();
+    } else {
+        filter_user(text);
+    }
+}
+
 function filter_user(name) {
     result_set = [];
 
@@ -85,6 +105,16 @@ function filter_user(name) {
     draw_result_set();
 }
 
+// Search for words in comment
+function search_comment () {
+    var text = document.getElementById("comment-search-bar").value;
+    if (text === "") {
+        remove_filter();
+    } else {
+        filter_comment(text);
+    }
+}
+
 function filter_comment(text) {
     result_set = [];
 
@@ -94,24 +124,6 @@ function filter_comment(text) {
         }
     });
     draw_result_set();
-}
-
-function search_user() {
-    var text = document.getElementById("user-search-bar").value;
-    if (text === "") {
-        remove_filter();
-    } else {
-        filter_user(text);
-    }
-}
-
-function search_comment () {
-    var text = document.getElementById("comment-search-bar").value;
-    if (text === "") {
-        remove_filter();
-    } else {
-        filter_comment(text);
-    }
 }
 
 function remove_filter() {
@@ -128,15 +140,6 @@ function remove_filter() {
     comment_search_field = document.getElementById("comment-search-bar");
     comment_search_field.value = "";
     load_all_issues();
-}
-
-function search_domain() {
-    var text = document.getElementById("domain-search-bar").value;
-    if (text === "") {
-        remove_filter();
-    } else {
-        filter_domain(text);
-    }
 }
 
 function draw_result_set() {
