@@ -39,8 +39,8 @@ def download_issues(filename="domains.json", skip=0, only_active=False):
 
             domain_name = row("div > a").text()
 
-            if row(".status-winner") is None:
-                logger.info("Domain {} already got a winner".format(domain_name))
+            if row(".status-winner") is not None and row(".status-winner").text() == "Winner '19":
+                logger.debug("Domain {} already got a winner".format(domain_name))
                 continue
 
             if not all(ord(c) < 128 for c in domain_name):
