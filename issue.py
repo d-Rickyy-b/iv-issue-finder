@@ -61,9 +61,15 @@ class Issue(object):
             logger.exception(e)
 
         try:
-            template_creator_field = pq(".input-group-addon")("li").eq(3).text()
-            regex = re.compile(r"Template #[0-9]{1,4} \(by (.*?)\)")
-            template_creator = regex.match(template_creator_field).group(1)
+            if self.template_creator is None or self.template_creator == "":
+                logger.warning("Template creator is None or empty: {}".format(self.url))
+                template_creator_field = pq(".input-group-addon")("li").eq(3).text()
+                regex = re.compile(r"Template #[0-9]{1,4} \(by (.*?)\)")
+                template_creator = regex.match(template_creator_field).group(1)
+
+                self.template_creator = template_creator or ""
+        except Exception as e:
+            logger.exception(e)
 
             self.template_creator = template_creator or ""
         try:
