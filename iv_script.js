@@ -131,6 +131,9 @@ function remove_filter() {
     issue_checkbox = document.getElementById("self-made-cb");
     issue_checkbox.checked = false;
 
+    reply_checkbox = document.getElementById("reply-cb");
+    reply_checkbox.checked = false;
+
     domain_search_field = document.getElementById("domain-search-bar");
     domain_search_field.value = "";
 
