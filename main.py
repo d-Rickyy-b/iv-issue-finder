@@ -46,6 +46,7 @@ def download_issues(filename="domains.json", skip=0, only_active=False, only_wit
                     logger.debug("Domain {} already got a winner".format(domain_name))
                     continue
 
+            # Ignore non-ascii domains for now
             if not all(ord(c) < 128 for c in domain_name):
                 logger.warning("{} - Non ascii domain found: {}".format(domain_counter, domain_name))
                 domain_counter += 1
