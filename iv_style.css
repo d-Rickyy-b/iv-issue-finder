@@ -72,7 +72,7 @@ body {
 /* Issue creator's comment in comment section */
 .list-item div.issue-comment::before {
     color:#808080;
-    content: 'Comment: '
+    content: 'Comment: ';
 }
 
 /* Issue reply in comment section */
@@ -82,7 +82,7 @@ body {
 
 .list-item div.issue-reply::before {
     color:#808080;
-    content: 'Reply: '
+    content: 'Reply: ';
 }
 
 .list-item .issue-author {
