@@ -33,12 +33,29 @@ function filter_self_made() {
 }
 
 function filter_no_reply() {
-    checkbox = document.getElementById("reply-cb")
+    checkbox = document.getElementById("no-reply-cb")
     result_set = [];
     
     if (checkbox.checked) {    
         issue_data.forEach(issue => {
             if (issue.creator_comment == "") {
+                result_set.push(issue);
+            }    
+        });
+        draw_result_set();
+    } else {
+        remove_filter();
+        load_all_issues();
+    }
+}
+
+function filter_with_reply() {
+    checkbox = document.getElementById("with-reply-cb")
+    result_set = [];
+    console.log(checkbox.checked);
+    if (checkbox.checked) {    
+        issue_data.forEach(issue => {
+            if (issue.creator_comment != "") {
                 result_set.push(issue);
             }    
         });
@@ -131,7 +148,10 @@ function remove_filter() {
     issue_checkbox = document.getElementById("self-made-cb");
     issue_checkbox.checked = false;
 
-    reply_checkbox = document.getElementById("reply-cb");
+    reply_checkbox = document.getElementById("no-reply-cb");
+    reply_checkbox.checked = false;
+
+    reply_checkbox = document.getElementById("with-reply-cb");
     reply_checkbox.checked = false;
 
     domain_search_field = document.getElementById("domain-search-bar");
