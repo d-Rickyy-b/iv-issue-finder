@@ -71,7 +71,6 @@ class Issue(object):
         except Exception as e:
             logger.exception(e)
 
-            self.template_creator = template_creator or ""
         try:
             logger.info("Names: {} - {}".format(self.template_creator, self.author))
             if self.template_creator == self.author:
