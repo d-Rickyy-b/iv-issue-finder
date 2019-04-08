@@ -24,7 +24,7 @@ class Template(object):
     def add_issue(self, url=None, comment=None, author=None, issue=None, date=None, creator_comment=None, template_creator=None, self_made=False):
         if issue is None:
             logger.info("New issue: {} - {}".format(author, url))
-            self.issues.append(Issue(url=url, author=author, date=date, comment=comment, creator_comment=creator_comment, template_creator=template_creator, self_made=self_made))
+            self.issues.append(Issue(url=url, author=author, date=date, comment=comment, creator_comment=creator_comment, template_creator=template_creator or self.creator, self_made=self_made))
         else:
             issue.info("New issue: {} - {} - {}".format(issue.author, issue.comment[:20], issue.url))
             self.issues.append(issue)
