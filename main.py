@@ -109,6 +109,7 @@ def search_saved_domains(search_word, filename="domains.json"):
 
 
 def save_csv_file(file, csv_domains, headers=True):
+    """Store all the issues in a csv file"""
     logger.info("Trying to save file as '{}'".format(file))
     with open(file, "w", encoding="utf-8") as f:
         if headers:
@@ -127,7 +128,6 @@ def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
     for domain in domains:
         for template in domain.templates:
             for issue in template.issues:
-                # tmp_str = "{};{};{};=HYPERLINK(\"{}\");\"{}\";".format(domain.name, issue.author.replace(";", ""), issue.url, issue.url, issue.comment.replace("\n", " ").replace("\"", "'"))
                 tmp_str = "{};{};{};{};\"{}\";\"{}\";".format(domain.name,
                                                               template.creator.replace(";", ""),
                                                               issue.author.replace(";", ""),
@@ -156,6 +156,7 @@ def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
 
 
 def to_issue_json(filename="issues.json", domain_file="domains.json"):
+    """Store all issues as a json file"""
     domains = load_from_json(filename=domain_file)
     issues = []
 
@@ -172,6 +173,7 @@ def to_issue_json(filename="issues.json", domain_file="domains.json"):
 
 
 def count_domain_issues(domain_file="domains.json"):
+    """Counts the amount of issues per domain"""
     domains = load_from_json(filename=domain_file)
     issues = []
     domain_issues = []
