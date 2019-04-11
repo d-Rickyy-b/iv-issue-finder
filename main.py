@@ -40,7 +40,7 @@ def download_issues(filename="domains.json", skip=0, only_active=False, only_wit
             domain_name = row("div > a").text()
 
             # Switch to decide if all domains or only those without a winner should get scraped
-            if not only_without_winner:
+            if only_without_winner:
                 # Only scrape domains which do not yet have a winner
                 if row(".status-winner") is not None and row(".status-winner").text() == "Winner '19":
                     logger.debug("Domain {} already got a winner".format(domain_name))
