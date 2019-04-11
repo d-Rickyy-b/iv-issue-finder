@@ -204,7 +204,7 @@ fetch('./issues.json')
                    ("0" + (date.getUTCMonth() + 1)).slice(-2) + "." +
                    date.getUTCFullYear() + " " +
                    ("0" + date.getUTCHours()).slice(-2) + ":" +
-                   ("0" + date.getUTCMinutes()).slice(-2) + " UTC+2";
+                   ("0" + date.getUTCMinutes()).slice(-2) + " UTC";
 
     document.getElementById("issues-date").innerText = date_str;
   })
