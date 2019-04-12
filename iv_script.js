@@ -14,56 +14,114 @@ function create_issue(issue_url, domain_name, author_name, creator_name, comment
     return html;
 }
 
-function filter_self_made() {
-    // Filters all the issues for self-made issues
-    checkbox = document.getElementById("self-made-cb")
-    result_set = [];
-        
-    if (checkbox.checked) {    
-        issue_data.forEach(issue => {
+function filter() {
+    // Get all filters
+    self_made_cb = document.getElementById("self-made-cb");
+    no_self_made_cb = document.getElementById("no-self-made-cb");
+    no_reply_cb = document.getElementById("no-reply-cb");
+    with_reply_cb = document.getElementById("with-reply-cb");
+
+    var domain_search = document.getElementById("domain-search-bar").value;
+    var user_search = document.getElementById("user-search-bar").value;
+    var comment_search = document.getElementById("comment-search-bar").value;
+
+    ret_result_set = [...issue_data];
+
+    // Check for self-made issues
+    if (self_made_cb.checked) {
+        no_self_made_cb.checked = false;
+        no_self_made_cb.disabled = true;
+        tmp_result_set = [];
+        ret_result_set.forEach(issue => {
             if (issue.self_made == true) {
-                result_set.push(issue);
+                tmp_result_set.push(issue);
             }
         });
-        draw_result_set();
+        ret_result_set = [...tmp_result_set];
     } else {
-        remove_filter();
-        load_all_issues();
+        no_self_made_cb.disabled = false;
     }
-}
-
-function filter_no_reply() {
-    checkbox = document.getElementById("no-reply-cb")
-    result_set = [];
     
-    if (checkbox.checked) {    
-        issue_data.forEach(issue => {
-            if (issue.creator_comment == "") {
-                result_set.push(issue);
-            }    
+    // Check for non-self-made issues
+    if (no_self_made_cb.checked) {
+        self_made_cb.checked = false;
+        self_made_cb.disabled = true;
+        tmp_result_set = [];
+        ret_result_set.forEach(issue => {
+            if (issue.self_made == true) {
+                tmp_result_set.push(issue);
+            }
         });
-        draw_result_set();
+        ret_result_set = [...tmp_result_set];
     } else {
-        remove_filter();
-        load_all_issues();
+        self_made_cb.disabled = false;
     }
-}
 
-function filter_with_reply() {
-    checkbox = document.getElementById("with-reply-cb")
-    result_set = [];
-    console.log(checkbox.checked);
-    if (checkbox.checked) {    
-        issue_data.forEach(issue => {
-            if (issue.creator_comment != "") {
-                result_set.push(issue);
+    // Check issues without reply
+    if (no_reply_cb.checked) {
+        with_reply_cb.checked = false;
+        with_reply_cb.disabled = true;
+        tmp_result_set = [];
+        ret_result_set.forEach(issue => {
+            if (issue.creator_comment == "") {
+                tmp_result_set.push(issue);
             }    
         });
-        draw_result_set();
+        ret_result_set = [...tmp_result_set];
     } else {
-        remove_filter();
-        load_all_issues();
+        with_reply_cb.disabled = false;
     }
+    
+    // Check issues with reply
+    if (with_reply_cb.checked) {
+        no_reply_cb.checked = false;
+        no_reply_cb.disabled = true;
+        tmp_result_set = [];
+        ret_result_set.forEach(issue => {
+            if (issue.creator_comment != "") {
+                tmp_result_set.push(issue);
+            }    
+        });
+        ret_result_set = [...tmp_result_set];
+    } else {
+        no_reply_cb.disabled = false;
+    }
+
+    if (domain_search != "") {
+        tmp_result_set = [];
+        ret_result_set.forEach(issue => {
+            var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
+            var domain_name = regExp.exec(issue.url)[1]
+            if (domain_name.toLowerCase().includes(String(domain_search).toLowerCase())) {
+                tmp_result_set.push(issue);
+            }
+        });
+        ret_result_set = [...tmp_result_set];
+    }
+
+    if (user_search != "") {
+        console.log("Test");
+        tmp_result_set = [];
+        ret_result_set.forEach(issue => {
+            if (issue.author.toLowerCase().includes(String(user_search).toLowerCase()) || issue.template_creator.toLowerCase().includes(String(user_search).toLowerCase())) {
+                tmp_result_set.push(issue);
+            }
+        });
+        ret_result_set = [...tmp_result_set];
+    }
+
+    if (comment_search != "") {
+        tmp_result_set = [];
+        ret_result_set.forEach(issue => {
+            if (issue.comment.toLowerCase().includes(String(comment_search).toLowerCase()) || issue.creator_comment.toLowerCase().includes(String(comment_search).toLowerCase())) {
+                tmp_result_set.push(issue);
+            }
+        });
+        ret_result_set = [...tmp_result_set];
+    }
+
+    result_set = [...ret_result_set];
+    draw_result_set();
 }
 
 function load_all_issues() {
@@ -73,72 +131,6 @@ function load_all_issues() {
 
     issue_data.forEach(issue => {
         result_set.push(issue);
-    });
-    draw_result_set();
-}
-
-// Search for domains
-function search_domain() {
-    var text = document.getElementById("domain-search-bar").value;
-    if (text === "") {
-        remove_filter();
-    } else {
-        filter_domain(text);
-    }
-}
-
-function filter_domain(name) {
-    list = document.getElementById("main-list");
-    result_set = [];
-
-    issue_data.forEach(issue => {
-        var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
-        var domain_name = regExp.exec(issue.url)[1]
-        if (domain_name.includes(String(name))) {
-            result_set.push(issue);
-        }
-    });
-    draw_result_set();
-}
-
-// Search for user data
-function search_user() {
-    var text = document.getElementById("user-search-bar").value;
-    if (text === "") {
-        remove_filter();
-    } else {
-        filter_user(text);
-    }
-}
-
-function filter_user(name) {
-    result_set = [];
-
-    issue_data.forEach(issue => {
-        if (issue.author.includes(String(name)) || issue.template_creator.includes(String(name))) {
-            result_set.push(issue);
-        }
-    });
-    draw_result_set();
-}
-
-// Search for words in comment
-function search_comment () {
-    var text = document.getElementById("comment-search-bar").value;
-    if (text === "") {
-        remove_filter();
-    } else {
-        filter_comment(text);
-    }
-}
-
-function filter_comment(text) {
-    result_set = [];
-
-    issue_data.forEach(issue => {
-        if (issue.comment.includes(String(text)) || issue.creator_comment.includes(String(text))) {
-            result_set.push(issue);
-        }
     });
     draw_result_set();
 }
@@ -193,7 +185,6 @@ fetch('./issues.json')
   .then(data => {
     // Work with JSON data here
     issue_data = data.issues;
-    var list = document.getElementById("main-list");
 
     load_all_issues();
 

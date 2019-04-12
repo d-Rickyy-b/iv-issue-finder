@@ -148,6 +148,12 @@ body {
     margin-bottom: 5px;
 
     padding-top: 20px;
+
+    display: flex;
+}
+
+.filter-col {
+    width: 33%;
 }
 
 .checkbox-label {
