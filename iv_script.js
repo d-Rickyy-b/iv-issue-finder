@@ -48,7 +48,7 @@ function filter() {
         self_made_cb.disabled = true;
         tmp_result_set = [];
         ret_result_set.forEach(issue => {
-            if (issue.self_made == true) {
+            if (issue.self_made == false) {
                 tmp_result_set.push(issue);
             }
         });
