@@ -42,16 +42,12 @@ class Domain(object):
         if self.only_active:
             site_templates = pq(".list-group-contest").eq(0)
         else:
+            # Otherwise parse rejected templates as well
             site_templates = pq(".list-group-contest")
 
         for template in site_templates.items(".list-group-contest-item"):
             creator = template(".contest-item-author > a").text()
             template_url = template(".contest-item-num > a").attr("href")
-            # if the domain already got a winner, skip # EDIT 08.04.2019 - ignore for now since we got a check in the main.py
-            #winner_text = template(".status-winner").text()
-            #if winner_text is not None and winner_text != "":
-            #    logger.info("Domain already got a winner! - {}".format(template(".status-winner").text()))
-            #    return
             self.add_template(creator, "https://instantview.telegram.org{}".format(template_url))
 
     def to_dict(self):
