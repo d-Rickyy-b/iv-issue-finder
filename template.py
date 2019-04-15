@@ -48,7 +48,7 @@ class Template(object):
         issue_header = pq("h3").eq(1)
 
         # if the header contains "accepted" or "declined" issues, ignore the issues - we only want unprocessed issues
-        if len(issue_header(".accepted")) != 0 or len(issue_header(".declined")) != 0 or issue_header.text().lower == "accepted issues" or issue_header.text().lower() == "declined issues":
+        if len(issue_header(".accepted")) != 0 or len(issue_header(".declined")) != 0 or issue_header.text().lower() == "accepted issues" or issue_header.text().lower() == "declined issues":
             return
 
         # Get the issue count
