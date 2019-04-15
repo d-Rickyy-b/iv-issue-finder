@@ -1,4 +1,23 @@
 @charset "UTF-8";
+
+@media (max-width:1499px) {
+    .main-list, .list-header {
+        width: 95%;
+    }
+}
+
+@media (min-width:1500px) {
+    .main-list, .list-header {
+        width: 85%;
+    }
+}
+
+@media (min-width:1921px) {
+    .main-list, .list-header {
+        width: 75%;
+    }
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     font: 16px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
@@ -6,7 +25,6 @@ body {
   
 .main-list, .list-header {
     margin: auto;
-    width: 70%;
     padding: 10px;
     min-width: 600px;
 }
