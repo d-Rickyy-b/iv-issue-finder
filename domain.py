@@ -25,7 +25,7 @@ class Domain(object):
     def add_template(self, name=None, url=None, template=None):
         if template is None:
             logger.info("New template: {} - {}".format(name, url))
-            self.templates.append(Template(name, url, self.parse_content))
+            self.templates.append(Template(name, url, self.parse_content, domain=self.name))
         else:
             logger.info("New template: {} - {}".format(template.creator, template.url))
             self.templates.append(template)

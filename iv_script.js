@@ -90,9 +90,7 @@ function filter() {
     if (domain_search != "") {
         tmp_result_set = [];
         ret_result_set.forEach(issue => {
-            var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
-            var domain_name = regExp.exec(issue.url)[1]
-            if (domain_name.toLowerCase().includes(String(domain_search).toLowerCase())) {
+            if (issue.domain.toLowerCase().includes(String(domain_search).toLowerCase())) {
                 tmp_result_set.push(issue);
             }
         });
@@ -163,10 +161,8 @@ function draw_result_set() {
     let html = "";
 
     result_set.forEach(issue => {
-        var regExp = /https:\/\/instantview\.telegram\.org\/contest\/(.*?)\/template[0-9]+\/issue[0-9]+\/?/g;
-        var domain_name = regExp.exec(issue.url)[1]
         if (issue.author.includes(String(name)) || issue.template_creator.includes(String(name))) {
-            html += create_issue(issue.url, domain_name, issue.author, issue.template_creator, issue.comment, issue.creator_comment);
+            html += create_issue(issue.url, issue.domain, issue.author, issue.template_creator, issue.comment, issue.creator_comment);
         }
     });
     list.innerHTML = html;

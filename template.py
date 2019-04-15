@@ -12,19 +12,20 @@ logger = logging.getLogger(__name__)
 
 class Template(object):
 
-    def __init__(self, creator, url, parse_content, issues=None):
+    def __init__(self, creator, url, parse_content, issues=None, domain=None):
         self.creator = creator
         self.url = url
         self.issues = issues or []
         self.parse_content = parse_content
+        self.domain = domain
 
         if parse_content:
             self.parse_issues()
 
-    def add_issue(self, url=None, comment=None, author=None, issue=None, date=None, creator_comment=None, template_creator=None, self_made=False):
+    def add_issue(self, url=None, comment=None, author=None, issue=None, date=None, creator_comment=None, template_creator=None, self_made=False, domain=None):
         if issue is None:
             logger.info("New issue: {} - {}".format(author, url))
-            self.issues.append(Issue(url=url, author=author, date=date, comment=comment, creator_comment=creator_comment, template_creator=template_creator or self.creator, self_made=self_made))
+            self.issues.append(Issue(url=url, author=author, date=date, comment=comment, creator_comment=creator_comment, template_creator=template_creator or self.creator, self_made=self_made, domain=domain))
         else:
             issue.info("New issue: {} - {} - {}".format(issue.author, issue.comment[:20], issue.url))
             self.issues.append(issue)
@@ -81,7 +82,7 @@ class Template(object):
                 logger.error("issue_url is none for {}".format(self.url))
                 continue
             date = issue(".contest-item-date").text()
-            self.add_issue(author=creator, url="https://instantview.telegram.org{}".format(issue_url), date=date)
+            self.add_issue(author=creator, url="https://instantview.telegram.org{}".format(issue_url), date=date, domain=self.domain)
 
     def to_dict(self):
         return dict(creator=self.creator, url=self.url, issues=self.issues)
@@ -91,7 +92,8 @@ class Template(object):
         creator = template_dict.get("creator")
         url = template_dict.get("url")
         issues = template_dict.get("issues")
-        template = Template(creator=creator, url=url, parse_content=False, issues=[])
+        domain = template_dict.get("domain")
+        template = Template(creator=creator, url=url, parse_content=False, issues=[], domain=domain)
 
         for issue in issues:
             issue_author = issue.get("author")
@@ -101,8 +103,9 @@ class Template(object):
             creator_comment = issue.get("creator_comment")
             template_creator = issue.get("template_creator")
             self_made = issue.get("self_made")
+            domain = issue.get("domain")
 
-            template.add_issue(url=issue_url, author=issue_author, comment=issue_comment, date=issue_date, creator_comment=creator_comment, template_creator=template_creator or creator, self_made=self_made)
+            template.add_issue(url=issue_url, author=issue_author, comment=issue_comment, date=issue_date, creator_comment=creator_comment, template_creator=template_creator or creator, self_made=self_made, domain=domain)
 
         return template
 
