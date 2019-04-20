@@ -140,42 +140,48 @@ body {
     border-bottom: 1px solid #dfdfdf;
     border-top: 1px solid #dfdfdf;
     font-size: 16px;
-    padding-left: 5px;
-    padding-right: 5px;
 
+    padding-left: 10px;
     padding-top: 12px;
     padding-bottom: 12px;
-    max-width: 61%;
-    margin-right: 5px;
-    margin-left: 5px;
-    vertical-align:top;
+
+    margin-bottom: 12px;
+    max-width: 70%;
+    vertical-align: top;
+
+    text-overflow: ellipsis;
 }
 
 .domain-search {
-    width: 16%;
+    width: calc(15% - 11px);
     float: left;
-}
-
-.comment-search {
-    width:56%;
-    float: right;
+    margin-right: 8px;
 }
 
 .user-search {
-    width: 23%;
+    width: calc(15% - 11px);
     float: left;
+    margin-right: 8px;
+}
+
+.comment-search {
+    width: calc(70% - 27px);
+    float: right;
 }
 
 .search-box {
-    display: flex;
+    /*display: flex;*/
     
-    zoom: 1;
     border: #333;
     flex-flow: row;
     margin-top: 15px;
     padding-top: 12px;
     padding-bottom: 12px;
-    width: 100%;
+    
+    padding-left: 15px;
+    padding-right: 15px;
+
+    width: calc(100% - 30px);
 }
 
 .filter-box {
