@@ -119,6 +119,10 @@ class Template(object):
             # Only get all issues following that header
             site_issues = issue_header.next(".list-group-issues")
 
+            if len(site_issues) == 0:
+                logger.debug("No issues found!")
+                continue
+
             for issue in site_issues.items(".list-group-contest-item"):
                 creator = issue(".contest-item-author > a").text()
                 issue_url = issue(".contest-item-num > a").attr("href")
