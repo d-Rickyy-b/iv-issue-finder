@@ -72,7 +72,7 @@ class Template(object):
         unhandled_issue_header = pq("h3").not_(".accepted").not_(".declined").eq(1)
         accepted_issue_header = pq("h3.accepted").eq(0)
         third_issue_header = pq("h3.declined").eq(0)
-        # TODO - Fetch all headers - iterate over them, returns a list of headers
+
         headers = [unhandled_issue_header, accepted_issue_header, third_issue_header]
 
         # Iterate over all the headers ("reported", "accepted", "declined") and select the issues from them
