@@ -153,8 +153,17 @@ class Template(object):
             template_creator = issue.get("template_creator")
             self_made = issue.get("self_made")
             domain = issue.get("domain")
+            status = IssueType(int(issue.get("status")))
 
-            template.add_issue(url=issue_url, author=issue_author, comment=issue_comment, date=issue_date, creator_comment=creator_comment, template_creator=template_creator or creator, self_made=self_made, domain=domain)
+            template.add_issue(url=issue_url,
+                               author=issue_author,
+                               comment=issue_comment,
+                               date=issue_date,
+                               creator_comment=creator_comment,
+                               template_creator=template_creator or creator,
+                               self_made=self_made,
+                               domain=domain,
+                               status=status)
 
         return template
 
