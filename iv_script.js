@@ -140,12 +140,7 @@ function filter() {
     }
 
     // Check unhandled issues
-    if (only_unhandled_cb.checked) {
-        only_declined_cb.checked = false;
-        only_accepted_cb.checked = false;
-        only_declined_cb.disabled = true;
-        only_accepted_cb.disabled = true;
-        
+    if (only_unhandled_cb.checked) {        
         tmp_result_set = [];
         ret_result_set.forEach(issue => {
             if (issue.status == 0) {
@@ -156,12 +151,7 @@ function filter() {
     }
 
     // Check accepted issues
-    if (only_accepted_cb.checked) {
-        only_declined_cb.checked = false;
-        only_unhandled_cb.checked = false;
-        only_declined_cb.disabled = true;
-        only_unhandled_cb.disabled = true;
-        
+    if (only_accepted_cb.checked) {        
         tmp_result_set = [];
         ret_result_set.forEach(issue => {
             if (issue.status == 1) {
@@ -173,7 +163,6 @@ function filter() {
 
     // Check declined issues
     if (only_declined_cb.checked) {
-        
         tmp_result_set = [];
         ret_result_set.forEach(issue => {
             if (issue.status == 2) {
