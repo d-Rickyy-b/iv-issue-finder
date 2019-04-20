@@ -27,6 +27,9 @@ class Template(object):
             self.parse_issues()
 
     def add_issue(self, url=None, comment=None, author=None, issue=None, date=None, creator_comment=None, template_creator=None, self_made=False, domain=None):
+    @property
+    def all_issues(self):
+        return self.issues + self.unprocessed_issues + self.accepted_issues + self.declined_issues
         if issue is None:
             logger.info("New issue: {} - {}".format(author, url))
             self.issues.append(Issue(url=url, author=author, date=date, comment=comment, creator_comment=creator_comment, template_creator=template_creator or self.creator, self_made=self_made, domain=domain))
