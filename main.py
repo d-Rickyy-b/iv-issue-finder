@@ -15,7 +15,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 
-def download_issues(filename="domains.json", skip=0, only_active=False, only_without_winner=True):
+def download_issues(filename="domains.json", skip=0, only_active=False, only_without_winner=True, only_unprocessed=True):
     """Downloads all the issues of the available domains"""
     domains = []
     main_html = send_request("https://instantview.telegram.org/contest")
@@ -53,7 +53,7 @@ def download_issues(filename="domains.json", skip=0, only_active=False, only_wit
                 continue
 
             logger.info("{} - New domain found: {}".format(domain_counter, domain_name))
-            tp.start_thread(download_domain, name=str(domain_counter), domain_name=domain_name, domain_queue=domain_queue, only_active=only_active)
+            tp.start_thread(download_domain, name=str(domain_counter), domain_name=domain_name, domain_queue=domain_queue, only_active=only_active, only_unprocessed=only_unprocessed)
 
             domain_counter += 1
     except Exception:
@@ -76,9 +76,9 @@ def download_issues(filename="domains.json", skip=0, only_active=False, only_wit
         f.write(json.dumps(obj=domains, cls=DataEncoder))
 
 
-def download_domain(domain_name, domain_queue, only_active):
+def download_domain(domain_name, domain_queue, only_active, only_unprocessed):
     """Downloads all the templates and issues related to one domain"""
-    domain = Domain(domain_name, parse_content=True, only_active=only_active)
+    domain = Domain(domain_name, parse_content=True, only_active=only_active, only_unprocessed=only_unprocessed)
     domain_queue.put(domain)
 
 
