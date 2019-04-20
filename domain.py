@@ -23,10 +23,10 @@ class Domain(object):
         if parse_content:
             self.parse_templates()
 
-    def add_template(self, name=None, url=None, template=None):
+    def add_template(self, creator=None, url=None, template=None):
         if template is None:
-            logger.info("New template: {} - {}".format(name, url))
-            self.templates.append(Template(name, url, self.parse_content, domain=self.name))
+            logger.info("New template: {} - {}".format(creator, url))
+            self.templates.append(Template(creator=creator, url=url, parse_content=self.parse_content, domain=self.name, only_unprocessed=self.only_unprocessed))
         else:
             logger.info("New template: {} - {}".format(template.creator, template.url))
             self.templates.append(template)
