@@ -1,10 +1,30 @@
-function create_issue(issue_url, domain_name, author_name, creator_name, comment, reply) {
+function create_issue(issue_url, domain_name, author_name, creator_name, comment, reply, status) {
+    switch (status) {
+        case 0:
+            status = "unhandled";
+            text = "Unhandled";
+            break;
+        case 1:
+            status = "accepted";
+            text = "Accepted";
+            break;
+        case 2:
+            status = "declined";
+            text = "Declined";
+            break;
+        default:
+            status = "unhandled";
+    }
+    
     let html = `<div class="list-item">
                     <div class="domain">
-                    <a href="${issue_url}" style="font-weight:bold">${domain_name}</a>
+                        <a href="${issue_url}">${domain_name}</a>
+                        <div class="status ${status}">${text}</div>
                     </div>
-                    <div class="issue-author name">${author_name}</div>
-                    <div class="template-creator name">${creator_name}</div>
+                    <div class="author-box">
+                        <div class="issue-author name">${author_name}</div>
+                        <div class="template-creator name">${creator_name}</div>
+                    </div>
                     <div class="comment-box">
                         <div class="issue-comment comment-field">${comment}</div>
                         <div class="issue-reply comment-field">${reply}</div>
@@ -26,6 +46,10 @@ function filter() {
     no_self_made_cb = document.getElementById("no-self-made-cb");
     no_reply_cb = document.getElementById("no-reply-cb");
     with_reply_cb = document.getElementById("with-reply-cb");
+
+    only_unhandled_cb = document.getElementById("only-unhandled-cb");
+    only_accepted_cb = document.getElementById("only-accepted-cb");
+    only_declined_cb = document.getElementById("only-declined-cb");
 
     var domain_search = document.getElementById("domain-search-bar").value;
     var user_search = document.getElementById("user-search-bar").value;
@@ -91,6 +115,74 @@ function filter() {
         ret_result_set = [...tmp_result_set];
     } else {
         no_reply_cb.disabled = false;
+    }
+
+    var cbs = [only_unhandled_cb, only_accepted_cb, only_declined_cb];
+    var cbs_copy = [...cbs]
+    var disable_list = [];
+    var enable_list = [];
+    
+    if (only_unhandled_cb.checked == false && only_accepted_cb.checked == false && only_declined_cb.checked == false) {
+        only_unhandled_cb.disabled = false;
+        only_accepted_cb.disabled = false;
+        only_declined_cb.disabled = false;
+    } else {
+        var passed_first_checked = false;
+        cbs.forEach(cb => {
+            if (passed_first_checked) {
+                cb.checked = false;
+                cb.disabled = true;       
+            } else if (cb.checked) {
+                passed_first_checked = true;
+            }
+        });
+    }
+
+    // Check unhandled issues
+    if (only_unhandled_cb.checked) {
+        only_declined_cb.checked = false;
+        only_accepted_cb.checked = false;
+        only_declined_cb.disabled = true;
+        only_accepted_cb.disabled = true;
+        
+        tmp_result_set = [];
+        ret_result_set.forEach(issue => {
+            if (issue.status == 0) {
+                tmp_result_set.push(issue);
+            }    
+        });
+        ret_result_set = [...tmp_result_set];
+    } else {
+        only_declined_cb.disabled = false;
+        only_accepted_cb.disabled = false;
+    }
+
+    // Check accepted issues
+    if (only_accepted_cb.checked) {
+        only_declined_cb.checked = false;
+        only_unhandled_cb.checked = false;
+        only_declined_cb.disabled = true;
+        only_unhandled_cb.disabled = true;
+        
+        tmp_result_set = [];
+        ret_result_set.forEach(issue => {
+            if (issue.status == 1) {
+                tmp_result_set.push(issue);
+            }    
+        });
+        ret_result_set = [...tmp_result_set];
+    }
+
+    // Check declined issues
+    if (only_declined_cb.checked) {
+        
+        tmp_result_set = [];
+        ret_result_set.forEach(issue => {
+            if (issue.status == 2) {
+                tmp_result_set.push(issue);
+            }    
+        });
+        ret_result_set = [...tmp_result_set];
     }
 
     if (domain_search != "") {
@@ -178,7 +270,7 @@ function draw_result_set() {
         }
 
         if (issue.author.includes(String(name)) || issue.template_creator.includes(String(name))) {
-            html += create_issue(issue.url, domain, issue.author, issue.template_creator, issue.comment, issue.creator_comment);
+            html += create_issue(issue.url, domain, issue.author, issue.template_creator, issue.comment, issue.creator_comment, issue.status);
         }
     });
     list.innerHTML = html;

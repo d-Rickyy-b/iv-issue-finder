@@ -50,6 +50,26 @@ body {
     text-decoration: none;
 }
 
+.status {
+    font-weight: bold;
+    margin-top: 0.5em;
+}
+
+.accepted{
+    color: #249106;
+    content: 'Accepted';
+}
+
+.declined {
+    color: #b12b2b;
+    content: 'Declined';
+}
+
+.unhandled {
+    color: #a1a1a1;
+    content: 'Unhandled';
+}
+
 .list-item div.domain {
     width: 18%;
     float: left;
