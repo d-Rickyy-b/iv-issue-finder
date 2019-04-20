@@ -5,6 +5,7 @@ import time
 import re
 import html
 from datetime import datetime
+from enum import Enum
 
 from pyquery import PyQuery
 
@@ -102,3 +103,9 @@ class Issue(object):
 
     def __dict__(self):
         return self.to_dict()
+
+
+class IssueType(Enum):
+    UNPROCESSED = 0
+    ACCEPTED = 1
+    DECLINED = 2
