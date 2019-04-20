@@ -12,12 +12,13 @@ logger = logging.getLogger(__name__)
 
 class Domain(object):
 
-    def __init__(self, name, parse_content=False, only_active=True):
+    def __init__(self, name, parse_content=False, only_active=True, only_unprocessed=True):
         self.name = name
         self.url = "https://instantview.telegram.org/contest/{}/".format(name)
         self.templates = []
         self.parse_content = parse_content
         self.only_active = only_active
+        self.only_unprocessed = only_unprocessed
 
         if parse_content:
             self.parse_templates()

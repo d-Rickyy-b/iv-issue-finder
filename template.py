@@ -12,12 +12,16 @@ logger = logging.getLogger(__name__)
 
 class Template(object):
 
-    def __init__(self, creator, url, parse_content, issues=None, domain=None):
+    def __init__(self, creator, url, parse_content, issues=None, unprocessed_issues=None, accepted_issues=None, declined_issues=None, domain=None, only_unprocessed=True):
         self.creator = creator
         self.url = url
         self.issues = issues or []
+        self.unprocessed_issues = unprocessed_issues or []
+        self.accepted_issues = accepted_issues or []
+        self.declined_issues = declined_issues or []
         self.parse_content = parse_content
         self.domain = domain
+        self.only_unprocessed = only_unprocessed
 
         if parse_content:
             self.parse_issues()
