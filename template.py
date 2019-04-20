@@ -36,7 +36,7 @@ class Template(object):
             return
 
         if self.url is None:
-            logger.error("Cannot parse {} - url is None".format(self.url))
+            logger.error("Cannot parse {} - url is None".format(self.domain))
 
         issue_site = send_request(self.url)
         if issue_site == "":
