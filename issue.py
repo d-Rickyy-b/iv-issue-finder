@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 class Issue(object):
 
-    def __init__(self, url, author, template_creator=None, comment=None, date=None, parse_content=False, creator_comment="", self_made=False, domain=None):
+    def __init__(self, url, author, template_creator=None, comment=None, date=None, parse_content=False, creator_comment="", self_made=False, domain=None, status=None):
         self.url = url
         self.template_creator = template_creator
         self.author = author
@@ -24,6 +24,7 @@ class Issue(object):
         self.creator_comment = creator_comment or ""
         self.self_made = self_made
         self.domain = domain
+        self.status = status or IssueType.UNPROCESSED
 
         if date is not None and not isinstance(date, int):
             try:
@@ -83,7 +84,15 @@ class Issue(object):
             logger.exception(e)
 
     def to_dict(self):
-        return dict(author=self.author, url=self.url, comment=self.comment, date=self.date, template_creator=self.template_creator, creator_comment=self.creator_comment, self_made=self.self_made, domain=self.domain)
+        return dict(author=self.author,
+                    url=self.url,
+                    comment=self.comment,
+                    date=self.date,
+                    template_creator=self.template_creator,
+                    creator_comment=self.creator_comment,
+                    self_made=self.self_made,
+                    domain=self.domain,
+                    status=self.status.value)
 
     @staticmethod
     def from_dict(issue_dict):
@@ -95,8 +104,9 @@ class Issue(object):
         template_creator = issue_dict.get("template_creator")
         self_made = issue_dict.get("self_made")
         domain = issue_dict.get("domain")
+        status = IssueType(issue_dict.get("status"))
 
-        return Issue(url=url, author=author, template_creator=template_creator, comment=comment, date=date, creator_comment=creator_comment, self_made=self_made, domain=domain)
+        return Issue(url=url, author=author, template_creator=template_creator, comment=comment, date=date, creator_comment=creator_comment, self_made=self_made, domain=domain, status=status)
 
     def to_json(self):
         return json.dumps(self.to_dict())
