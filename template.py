@@ -174,4 +174,4 @@ class Template(object):
         return json.dumps(self.to_dict())
 
     def __str__(self):
-        return "{} | {} | {}".format(self.creator, self.url, self.issues)
+        return "{} | {} | {}".format(self.creator, self.url, self.all_issues)
