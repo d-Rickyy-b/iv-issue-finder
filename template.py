@@ -54,7 +54,7 @@ class Template(object):
             self.declined_issues.append(issue_o)
 
     def parse_issues(self):
-        if len(self.issues) > 0:
+        if len(self.issues) > 0 or len(self.accepted_issues) > 0 or len(self.declined_issues) > 0 or len(self.unprocessed_issues) > 0:
             logger.error("There are already issues in here!")
             return
 
