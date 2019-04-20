@@ -117,7 +117,7 @@ class Template(object):
                 continue
 
             # Only get all issues following that header
-            site_issues = issue_header.next(".list-group-issues")
+            site_issues = issue_header.next_all(".list-group-issues").eq(0)
 
             if len(site_issues) == 0:
                 logger.debug("No issues found!")
