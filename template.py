@@ -114,7 +114,7 @@ class Template(object):
 
             if issue_amount == 0:
                 logger.debug("No open issues @ {} - header name: {}".format(self.url, pq("h3").eq(1).text()))
-                return
+                continue
 
             # Only get unhandled issues
             site_issues = pq(".list-group-issues").eq(0)
