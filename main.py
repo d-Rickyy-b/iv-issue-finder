@@ -162,7 +162,7 @@ def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
 def to_issue_json(filename="issues.json", domain_file="domains.json", separate_issues=False):
     """Store all issues as a json file"""
     domains = load_from_json(filename=domain_file)
-    issues = []
+    all_issues = []
     accepted_issues = []
     declined_issues = []
     unprocessed_issues = []
@@ -170,7 +170,7 @@ def to_issue_json(filename="issues.json", domain_file="domains.json", separate_i
     if separate_issues:
         for domain in domains:
             for template in domain.templates:
-                issues += template.issues
+                all_issues += template.all_issues
                 accepted_issues += template.accepted_issues
                 declined_issues += template.declined_issues
                 unprocessed_issues += template.unprocessed_issues
@@ -178,7 +178,7 @@ def to_issue_json(filename="issues.json", domain_file="domains.json", separate_i
         date = int(time.time())
         path, ending = filename.split(".")
         issue_objs = list()
-        issue_objs.append(dict(filename=filename, obj=dict(date=date, issues=issues)))
+        issue_objs.append(dict(filename=path + "_all." + ending, obj=dict(date=date, issues=all_issues)))
         issue_objs.append(dict(filename=path + "_accepted." + ending, obj=dict(date=date, issues=accepted_issues)))
         issue_objs.append(dict(filename=path + "_declined." + ending, obj=dict(date=date, issues=declined_issues)))
         issue_objs.append(dict(filename=path + "_unhandled." + ending, obj=dict(date=date, issues=unprocessed_issues)))
