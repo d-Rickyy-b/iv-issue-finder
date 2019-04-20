@@ -159,7 +159,7 @@ def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
             logger.error(e)
 
 
-def to_issue_json(filename="issues.json", domain_file="domains.json"):
+def to_issue_json(filename="issues.json", domain_file="domains.json", separate_issues=False):
     """Store all issues as a json file"""
     domains = load_from_json(filename=domain_file)
     issues = []
