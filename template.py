@@ -104,7 +104,7 @@ class Template(object):
         accepted_issues = template_dict.get("accepted_issues")
         declined_issues = template_dict.get("declined_issues")
         domain = template_dict.get("domain")
-        template = Template(creator=creator, url=url, parse_content=False, issues=[], domain=domain)
+        template = Template(creator=creator, url=url, parse_content=False, domain=domain)
         all_issues = issues + unprocessed_issues + accepted_issues + declined_issues
 
         for issue in all_issues:
