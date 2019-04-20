@@ -116,8 +116,8 @@ class Template(object):
                 logger.debug("No open issues @ {} - header name: {}".format(self.url, pq("h3").eq(1).text()))
                 continue
 
-            # Only get unhandled issues
-            site_issues = pq(".list-group-issues").eq(0)
+            # Only get all issues following that header
+            site_issues = issue_header.next(".list-group-issues")
 
             for issue in site_issues.items(".list-group-contest-item"):
                 creator = issue(".contest-item-author > a").text()
