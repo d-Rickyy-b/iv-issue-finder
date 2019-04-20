@@ -189,10 +189,10 @@ def to_issue_json(filename="issues.json", domain_file="domains.json", separate_i
     else:
         for domain in domains:
             for template in domain.templates:
-                issues += template.all_issues
+                all_issues += template.all_issues
 
         date = int(time.time())
-        issue_obj = dict(date=date, issues=issues)
+        issue_obj = dict(date=date, issues=all_issues)
 
         with open(filename, "w", encoding="utf-8") as f:
             f.write(json.dumps(obj=issue_obj, cls=DataEncoder))
