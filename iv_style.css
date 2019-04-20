@@ -46,6 +46,7 @@ body {
 }
 
 .list-item .domain a, .list-item .domain a:hover {
+    font-weight: bold;
     color: #2e87ca;
     text-decoration: none;
 }
