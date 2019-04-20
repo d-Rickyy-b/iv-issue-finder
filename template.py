@@ -26,7 +26,6 @@ class Template(object):
         if parse_content:
             self.parse_issues()
 
-    def add_issue(self, url=None, comment=None, author=None, issue=None, date=None, creator_comment=None, template_creator=None, self_made=False, domain=None):
     @property
     def all_issues(self):
         return self.issues + self.unprocessed_issues + self.accepted_issues + self.declined_issues
@@ -70,44 +69,65 @@ class Template(object):
         pq = PyQuery(issue_site)
 
         # get the first header of the site
-        issue_header = pq("h3").eq(1)
+        unhandled_issue_header = pq("h3").not_(".accepted").not_(".declined").eq(1)
+        accepted_issue_header = pq("h3.accepted").eq(0)
+        third_issue_header = pq("h3.declined").eq(0)
+        # TODO - Fetch all headers - iterate over them, returns a list of headers
+        headers = [unhandled_issue_header, accepted_issue_header, third_issue_header]
 
-        # if the header contains "accepted" or "declined" issues, ignore the issues - we only want unprocessed issues
-        if len(issue_header(".accepted")) != 0 or len(issue_header(".declined")) != 0 or issue_header.text().lower() == "accepted issues" or issue_header.text().lower() == "declined issues":
-            logger.debug("Issue already processed for template '{}'".format(self.url))
-            return
-
-        # Get the issue count
-        issue_header_count = issue_header(".header-count")
-
-        # If the count does not exist, there are no issues on that domain
-        if len(issue_header_count) == 0:
-            logger.debug("No issues for template {}".format(self.url))
-            return
-
-        header_count_text = issue_header_count.text()
-        try:
-            issue_amount = int(header_count_text)
-        except ValueError:
-            logger.warning("Cannot parse int from .header-count: {} - '{}'".format(self.url, header_count_text))
-            return
-
-        if issue_amount == 0:
-            logger.debug("No open issues @ {} - header name: {}".format(self.url, pq("h3").eq(1).text()))
-            return
-
-        # Only get unhandled issues
-        site_issues = pq(".list-group-issues").eq(0)
-
-        for issue in site_issues.items(".list-group-contest-item"):
-            creator = issue(".contest-item-author > a").text()
-            issue_url = issue(".contest-item-num > a").attr("href")
-
-            if issue_url is None:
-                logger.error("issue_url is none for {}".format(self.url))
+        # Iterate over all the headers ("reported", "accepted", "declined") and select the issues from them
+        for issue_header in headers:
+            # Skip non existent headers
+            if len(issue_header) == 0:
                 continue
-            date = issue(".contest-item-date").text()
-            self.add_issue(author=creator, url="https://instantview.telegram.org{}".format(issue_url), date=date, domain=self.domain)
+
+            status = IssueType.UNPROCESSED
+
+            if self.only_unprocessed:
+                # if the header contains "accepted" or "declined" issues, ignore the issues - we only want unprocessed issues
+                if len(issue_header(".accepted")) != 0 or len(issue_header(".declined")) != 0 or issue_header.text().lower() == "accepted issues" or issue_header.text().lower() == "declined issues":
+                    logger.debug("Issue already processed for template '{}'".format(self.url))
+                    continue
+            else:
+                # Also parse accepted & declined issues
+                if len(issue_header(".accepted")) != 0 or issue_header.text().lower() == "accepted issues":
+                    status = IssueType.ACCEPTED
+                elif len(issue_header(".declined")) != 0 or issue_header.text().lower() == "declined issues":
+                    status = IssueType.DECLINED
+                else:
+                    status = IssueType.UNPROCESSED
+
+            # Get the issue count
+            issue_header_count = issue_header(".header-count")
+
+            # If the count does not exist, there are no issues on that domain
+            if len(issue_header_count) == 0:
+                logger.debug("No issues for template {}".format(self.url))
+                continue
+
+            header_count_text = issue_header_count.text()
+            try:
+                issue_amount = int(header_count_text)
+            except ValueError:
+                logger.warning("Cannot parse int from .header-count: {} - '{}'".format(self.url, header_count_text))
+                return
+
+            if issue_amount == 0:
+                logger.debug("No open issues @ {} - header name: {}".format(self.url, pq("h3").eq(1).text()))
+                return
+
+            # Only get unhandled issues
+            site_issues = pq(".list-group-issues").eq(0)
+
+            for issue in site_issues.items(".list-group-contest-item"):
+                creator = issue(".contest-item-author > a").text()
+                issue_url = issue(".contest-item-num > a").attr("href")
+
+                if issue_url is None:
+                    logger.error("issue_url is none for {}".format(self.url))
+                    continue
+                date = issue(".contest-item-date").text()
+                self.add_issue(author=creator, url="https://instantview.telegram.org{}".format(issue_url), date=date, domain=self.domain, status=status)
 
     def to_dict(self):
         return dict(creator=self.creator, url=self.url, issues=self.issues, unprocessed_issues=self.unprocessed_issues, accepted_issues=self.accepted_issues, declined_issues=self.declined_issues)
