@@ -14,6 +14,7 @@ function create_issue(issue_url, domain_name, author_name, creator_name, comment
             break;
         default:
             status = "unhandled";
+            text = "Unhandled";
     }
     
     let html = `<div class="list-item">
