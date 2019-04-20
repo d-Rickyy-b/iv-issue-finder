@@ -93,17 +93,21 @@ class Template(object):
             self.add_issue(author=creator, url="https://instantview.telegram.org{}".format(issue_url), date=date, domain=self.domain)
 
     def to_dict(self):
-        return dict(creator=self.creator, url=self.url, issues=self.issues)
+        return dict(creator=self.creator, url=self.url, issues=self.issues, unprocessed_issues=self.unprocessed_issues, accepted_issues=self.accepted_issues, declined_issues=self.declined_issues)
 
     @staticmethod
     def from_dict(template_dict):
         creator = template_dict.get("creator")
         url = template_dict.get("url")
         issues = template_dict.get("issues")
+        unprocessed_issues = template_dict.get("unprocessed_issues")
+        accepted_issues = template_dict.get("accepted_issues")
+        declined_issues = template_dict.get("declined_issues")
         domain = template_dict.get("domain")
         template = Template(creator=creator, url=url, parse_content=False, issues=[], domain=domain)
+        all_issues = issues + unprocessed_issues + accepted_issues + declined_issues
 
-        for issue in issues:
+        for issue in all_issues:
             issue_author = issue.get("author")
             issue_url = issue.get("url")
             issue_comment = issue.get("comment")
