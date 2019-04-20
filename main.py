@@ -163,17 +163,39 @@ def to_issue_json(filename="issues.json", domain_file="domains.json", separate_i
     """Store all issues as a json file"""
     domains = load_from_json(filename=domain_file)
     issues = []
+    accepted_issues = []
+    declined_issues = []
+    unprocessed_issues = []
 
-    for domain in domains:
-        for template in domain.templates:
-            for issue in template.issues:
-                issues.append(issue)
+    if separate_issues:
+        for domain in domains:
+            for template in domain.templates:
+                issues += template.issues
+                accepted_issues += template.accepted_issues
+                declined_issues += template.declined_issues
+                unprocessed_issues += template.unprocessed_issues
 
-    date = int(time.time())
-    issue_obj = dict(date=date, issues=issues)
+        date = int(time.time())
+        path, ending = filename.split(".")
+        issue_objs = list()
+        issue_objs.append(dict(filename=filename, obj=dict(date=date, issues=issues)))
+        issue_objs.append(dict(filename=path + "_accepted." + ending, obj=dict(date=date, issues=accepted_issues)))
+        issue_objs.append(dict(filename=path + "_declined." + ending, obj=dict(date=date, issues=declined_issues)))
+        issue_objs.append(dict(filename=path + "_unhandled." + ending, obj=dict(date=date, issues=unprocessed_issues)))
 
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(json.dumps(obj=issue_obj, cls=DataEncoder))
+        for issue_obj in issue_objs:
+            with open(issue_obj.get("filename"), "w", encoding="utf-8") as f:
+                f.write(json.dumps(obj=issue_obj.get("obj"), cls=DataEncoder))
+    else:
+        for domain in domains:
+            for template in domain.templates:
+                issues += template.all_issues
+
+        date = int(time.time())
+        issue_obj = dict(date=date, issues=issues)
+
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(json.dumps(obj=issue_obj, cls=DataEncoder))
 
 
 def count_domain_issues(domain_file="domains.json"):
