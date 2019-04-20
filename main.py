@@ -106,7 +106,7 @@ def search_saved_domains(search_word, filename="domains.json"):
 
     for domain in domains:
         for template in domain.templates:
-            for issue in template.issues:
+            for issue in template.all_issues:
                 if search_word in issue.comment:
                     logger.info("{} | {} | {}".format(issue.url, domain.name, issue.comment))
 
@@ -130,13 +130,14 @@ def to_csv(filename="domains.csv", domain_file="domains.json", headers=True):
 
     for domain in domains:
         for template in domain.templates:
-            for issue in template.issues:
-                tmp_str = "{};{};{};{};\"{}\";\"{}\";".format(domain.name,
-                                                              template.creator.replace(";", ""),
-                                                              issue.author.replace(";", ""),
-                                                              issue.url,
-                                                              issue.comment.replace("\n", " ").replace("\"", "'"),
-                                                              issue.creator_comment.replace("\n", " ").replace("\"", "'"))
+            for issue in template.all_issues:
+                tmp_str = "{};{};{};{};\"{}\";\"{}\";{};".format(domain.name,
+                                                                 template.creator.replace(";", ""),
+                                                                 issue.author.replace(";", ""),
+                                                                 issue.url,
+                                                                 issue.comment.replace("\n", " ").replace("\"", "'"),
+                                                                 issue.creator_comment.replace("\n", " ").replace("\"", "'"),
+                                                                 issue.status.value)
                 csv_domains.append(tmp_str)
 
     current_path = os.path.dirname(os.path.abspath(__file__))
@@ -185,7 +186,7 @@ def count_domain_issues(domain_file="domains.json"):
         domain_issue_counter = 0
         for template in domain.templates:
             template_issue_counter = 0
-            for issue in template.issues:
+            for issue in template.all_issues:
                 template_issue_counter += 1
                 issues.append(issue)
             domain_issue_counter += template_issue_counter
