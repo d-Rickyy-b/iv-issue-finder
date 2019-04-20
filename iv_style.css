@@ -29,7 +29,6 @@ body {
     min-width: 600px;
 }
 
-
 .list-item {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -72,27 +71,36 @@ body {
 }
 
 .list-item div.domain {
-    width: 18%;
     float: left;
+    width: 15%;
+    margin-right: 8px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    margin-right: 5px;
+    clear: none;
+    display: table-cell
 }
 
 .list-item div.issue-author,
 .list-item div.template-creator {
-    width: 12%;
     min-height: 1em;
     float: left;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     margin-right: 5px;
+    clear: left;
+}
+
+.list-item div.author-box {
+    float: left;
+    width: 15%;
+    margin-right: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .list-item div.comment-box {
-    
     overflow: hidden; /*
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -103,7 +111,6 @@ body {
     /* overflow-x: scroll;
     overflow-y: hidden; */
     overflow: initial;
-    /*white-space: nowrap;*/
     overflow-wrap: normal;
     text-overflow: ellipsis;
 }
@@ -116,7 +123,7 @@ body {
 
 /* Issue reply in comment section */
 .list-item div.issue-reply {
-    margin-top: 2px;
+    margin-top: 0.5em;
 }
 
 .list-item div.issue-reply::before {
@@ -130,6 +137,7 @@ body {
 
 .list-item .template-creator {
     color: #32bfb3;
+    margin-top: 0.5em;
 }
 
 .hidden {
