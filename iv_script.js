@@ -119,22 +119,22 @@ function filter() {
     }
 
     var cbs = [only_unhandled_cb, only_accepted_cb, only_declined_cb];
-    var cbs_copy = [...cbs]
-    var disable_list = [];
-    var enable_list = [];
     
     if (only_unhandled_cb.checked == false && only_accepted_cb.checked == false && only_declined_cb.checked == false) {
         only_unhandled_cb.disabled = false;
         only_accepted_cb.disabled = false;
         only_declined_cb.disabled = false;
     } else {
-        var passed_first_checked = false;
         cbs.forEach(cb => {
-            if (passed_first_checked) {
-                cb.checked = false;
-                cb.disabled = true;       
-            } else if (cb.checked) {
-                passed_first_checked = true;
+            if (cb.checked) {
+                var tmp = [...cbs];
+                var index = cbs.indexOf(cb);
+                tmp.splice(index, 1);
+                tmp.forEach(c => {
+                    console.log(c);
+                    c.checked = false;
+                    c.disabled = true;
+                });
             }
         });
     }
@@ -153,9 +153,6 @@ function filter() {
             }    
         });
         ret_result_set = [...tmp_result_set];
-    } else {
-        only_declined_cb.disabled = false;
-        only_accepted_cb.disabled = false;
     }
 
     // Check accepted issues
