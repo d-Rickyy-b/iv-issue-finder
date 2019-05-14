@@ -9,3 +9,9 @@ One of the best parts of it is that Telegram caches the articles (also media) on
 
 ### What does this tool do?
 This tool parses the Telegram contest website for active domains and checks the templates on these domains for issues. It eventually generates output files which can be used further to e.g. display the data on a webpage or to do some statistics. The data is available as `.csv` and `.json`.
+
+### Components
+This software is made up of two components - the `backend` component, which contains all the code to parse the issues from the official Telegram website and the frontend or rather `website` component.
+To use the parser, you need to use the `./backend/main.py` file, and add your own code, depending on what data you want to retrieve.
+
+Since this was not planned to be made public in the first place, there is no proper documentation. Feel free to ask me about it, if you have questions.
