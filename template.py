@@ -79,6 +79,7 @@ class Template(object):
         for issue_header in headers:
             # Skip non existent headers
             if len(issue_header) == 0:
+                logger.debug("Ignoring empty header")
                 continue
 
             status = IssueType.UNPROCESSED
