@@ -61,7 +61,7 @@ def download_issues(filename="domains.json", skip=0, only_active=False, only_wit
         tp.kill()
 
     # Wait until all the threads are finished
-    tp.join_threads()
+    tp._join_threads()
 
     while not domain_queue.empty():
         domains.append(domain_queue.get())
