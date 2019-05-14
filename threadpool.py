@@ -7,6 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 class Threadpool(object):
+    """Threadpool implementation to create a certain amount of worker threads"""
 
     def __init__(self, workers):
         self.workers = workers
@@ -21,11 +22,12 @@ class Threadpool(object):
             return
 
         self.semaphore.acquire()
-        thread = Thread(target=self.thread_wrapper, name=name, args=(target, self.stop_event) + args, kwargs=kwargs)
+        thread = Thread(target=self._thread_wrapper, name=name, args=(target, self.stop_event) + args, kwargs=kwargs)
         thread.start()
         self.threads.append(thread)
 
-    def thread_wrapper(self, target, exception_event, *args, **kwargs):
+    def _thread_wrapper(self, target, exception_event, *args, **kwargs):
+        """Thread wrapper which handles logging and error handling"""
         thread_name = current_thread().name
         logger.debug("Processing domain: {}".format(thread_name))
         try:
@@ -41,7 +43,7 @@ class Threadpool(object):
             logger.debug('{0} - thread ended'.format(thread_name))
             self.semaphore.release()
 
-    def join_threads(self):
+    def _join_threads(self):
         """End all threads and join them back into the main thread"""
         for thread in self.threads:
             logger.debug("Joining thread {0}".format(thread.name))
@@ -51,4 +53,4 @@ class Threadpool(object):
     def kill(self):
         logger.error("Killing the threadpool")
         self.stop_event.set()
-        self.join_threads()
+        self._join_threads()
