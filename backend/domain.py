@@ -4,8 +4,8 @@ import logging
 
 from pyquery import PyQuery
 
-from template import Template
-from util import send_request
+from backend.template import Template
+from backend.util import send_request
 
 logger = logging.getLogger(__name__)
 

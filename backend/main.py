@@ -7,9 +7,9 @@ from queue import Queue
 
 from pyquery import PyQuery
 
-from domain import Domain
-from threadpool import Threadpool
-from util import send_request, DataEncoder
+from backend.domain import Domain
+from backend.threadpool import Threadpool
+from backend.util import send_request, DataEncoder
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)

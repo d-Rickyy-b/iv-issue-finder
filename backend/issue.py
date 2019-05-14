@@ -9,7 +9,7 @@ from enum import Enum
 
 from pyquery import PyQuery
 
-from util import send_request
+from backend.util import send_request
 
 logger = logging.getLogger(__name__)
 

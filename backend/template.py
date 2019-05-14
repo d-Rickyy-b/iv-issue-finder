@@ -4,8 +4,8 @@ import logging
 
 from pyquery import PyQuery
 
-from issue import Issue, IssueType
-from util import send_request
+from backend.issue import Issue, IssueType
+from backend.util import send_request
 
 logger = logging.getLogger(__name__)
 
