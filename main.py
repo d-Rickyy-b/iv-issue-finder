@@ -222,8 +222,11 @@ def count_domain_issues(domain_file="domains.json"):
 
 
 if __name__ == "__main__":
-    download_issues(filename="domains.json", only_active=True)
+    # Download all issues
+    #download_issues(filename="domains.json", only_active=False, only_unprocessed=False)
+    # Download only currently open issues
+    download_issues(filename="domains.json", only_active=True, only_unprocessed=True)
     # search_saved_domains("missing")
     to_csv(filename="domains.csv", domain_file="domains.json")
-    to_issue_json(filename="issues.json", domain_file="domains.json")
+    to_issue_json(filename="issues.json", domain_file="domains.json", separate_issues=False)
     count_domain_issues()
